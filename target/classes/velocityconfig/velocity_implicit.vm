@@ -1,0 +1,13 @@
+#* @implicitly included *#
+#* @vtlvariable name="WebPath" type="app.util.Path.Web" *#
+#* @vtlvariable name="msg" type="app.util.MessageBundle" *#
+#* @vtlvariable name="recipes" type="java.lang.Iterable<app.recipe.Recipe>" *#
+#* @vtlvariable name="recipe" type="app.recipe.Recipe" *#
+#* @vtlvariable name="users" type="java.lang.Iterable<app.user.User>" *#
+#* @vtlvariable name="currentUser" type="java.lang.String" *#
+#* @vtlvariable name="loggedOut" type="java.lang.String" *#
+#* @vtlvariable name="authenticationFailed" type="java.lang.String" *#
+#* @vtlvariable name="authenticationSucceeded" type="java.lang.String" *#
+#* @vtlvariable name="loginRedirect" type="java.lang.String" *#
+#* @vtlvariable name="newRecipe" type="app.recipe.Recipe" *#
+#* @vtlvariable name="popularRecipe" type="app.recipe.Recipe" *#
