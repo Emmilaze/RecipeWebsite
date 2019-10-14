@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Все рецепты</title>
+    <title>Список рецептов</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,14 +28,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li >
+                <li class="nav-item active">
                     <a class="nav-link" href="/index">Главная
-
                     </a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/recipesAll">Все рецепты
-                        <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/recipes">Все рецепты</a>
                 </li>
                 #if($currentUser)
                     <li>
@@ -55,20 +53,36 @@
         </div>
     </div>
 </nav>
-<div>
-    #foreach($recipe in $recipes)
-        <div class="col">
-            <a class="recipe" href="/recipesAll/$recipe.id">
-                <div>
-                    <img src="$recipe.mediumCover" alt="$recipe.author">
-                </div>
-                $msg.get($recipe.name, $recipe.author)
-            </a>
-        </div>
+<!-- Page Content -->
+<div class="col-md-8">
+    <h1 class="my-4"> </h1>
+#foreach($recipe in $recipes)
+<div class="card mb-4">
+    <img class="card-img-top" src="">
+    <div class="card-body">
+        <h2 class="card-title">$recipe.getName()</h2>
+        <p class="card-text">$recipe.getDescription()</p>
+        <a href="/recipes/$recipe.id" class="btn btn-primary">Подробнее &rarr;</a>
+    </div>
+    <div class="card-footer text-muted">$recipe.getPublicationTime()
+        <a href="#">$recipe.getAuthor()</a>
+    </div>
+</div>
     #end
 </div>
+
+<!-- Pagination -->
+<ul class="pagination justify-content-center mb-4">
+    <li class="page-item">
+        <a class="page-link" href="#">&larr; Новее</a>
+    </li>
+    <li class="page-item disabled">
+        <a class="page-link" href="#"> Старее &rarr;</a>
+    </li>
+</ul>
+
 <!-- Footer -->
-<footer class="py-5 bg-dark">
+<footer class="footer">
     <div class="container">
         <p class="m-0 text-center text-white">Название &copy; Emmilycorp 2019</p>
     </div>

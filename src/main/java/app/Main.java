@@ -3,7 +3,6 @@ package app;
 import app.index.IndexController;
 import app.login.LoginController;
 import app.post.PostController;
-import app.recipesAll.ListOfRecipesController;
 import app.registration.RegistrationController;
 import app.recipe.RecipeController;
 import app.recipe.RecipeDao;
@@ -39,8 +38,7 @@ public class Main {
             before(LoginController.ensureLoginBeforeViewingBooks);
             get(Path.Web.INDEX, IndexController.serveIndexPage);
             get(Path.Web.REGISTRATION, RegistrationController.serveRegistrationPage);
-//            get(Path.Web.RECIPES, RecipeController.fetchAllRecipes);
-            get(Path.Web.RECIPES, ListOfRecipesController.serveAllRecipesPage);
+            get(Path.Web.RECIPES, RecipeController.fetchAllRecipes);
             get(Path.Web.ONE_RECIPE, RecipeController.fetchOneRecipe);
             get(Path.Web.LOGIN, LoginController.serveLoginPage);
             post(Path.Web.LOGIN, LoginController.handleLoginPost);

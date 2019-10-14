@@ -15,6 +15,7 @@ public class IndexController {
 //        model.put("users", userDao.getAllUserNames());
         model.put("newRecipe", recipeDao.getNewest());
         model.put("popularRecipe", recipeDao.getPopular());
+        model.put("recipe", recipeDao.getRandomRecipe());
         ctx.render(Path.Template.INDEX, model);
 //        ctx.render(Path.Template.INDEX);
     };

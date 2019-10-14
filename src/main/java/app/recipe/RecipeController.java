@@ -12,7 +12,7 @@ import static app.util.RequestUtil.getParamId;
 public class RecipeController {
     public static Handler fetchAllRecipes = ctx -> {
         Map<String, Object> model = ViewUtil.baseModel(ctx);
-        model.put("recipe", recipeDao.getAllRecipes());
+        model.put("recipes", recipeDao.getAllRecipes());
         ctx.render(Path.Template.RECIPES_ALL, model);
     };
 
