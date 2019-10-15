@@ -1,13 +1,15 @@
 package app.recipe;
 
+import app.user.User;
+
 import java.util.*;
 
 public class RecipeDao {
     private final List<Recipe> recipes = new ArrayList<>(Arrays.asList(
-            new Recipe(1, "1", "Описание", "Ингридиенты", new Date(), "Автор", 1),
-            new Recipe(1, "2", "Описание", "Ингридиенты", new Date(), "Автор", 0),
-            new Recipe(1, "3", "Описание", "Ингридиенты", new Date(), "Автор", 2),
-            new Recipe(1, "4", "Описание", "Ингридиенты", new Date(), "Автор", 3)
+            new Recipe(1, "1", "Описание", "Ингридиенты", "Закуска", new Date(), 1, 1),
+            new Recipe(2, "2", "Описание", "Ингридиенты", "Напиток", new Date(), 2, 0),
+            new Recipe(3, "3", "Описание", "Ингридиенты", "Завтрак", new Date(), 3, 2),
+            new Recipe(4, "4", "Описание", "Ингридиенты","Десерт", new Date(), 4, 3)
     ));
 
     public Iterable<Recipe> getAllRecipes() {
@@ -22,13 +24,13 @@ public class RecipeDao {
         return recipes.get(new Random().nextInt(recipes.size()));
     }
 
-    public Recipe getPopular(){
+    public List<Recipe> getPopular(){
         recipes.sort(Comparator.comparing(Recipe::getRating).reversed());
-        return recipes.get(0);
+        return recipes;
     }
 
-    public Recipe getNewest(){
+    public List<Recipe> getNewest(){
         recipes.sort(Comparator.comparing(Recipe::getPublicationTime));
-        return recipes.get(0);
+        return recipes;
     }
 }

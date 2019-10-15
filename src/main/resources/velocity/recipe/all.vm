@@ -58,7 +58,7 @@
     <h1 class="my-4"> </h1>
 #foreach($recipe in $recipes)
 <div class="card mb-4">
-    <img class="card-img-top" src="">
+    <img class="card-img-top" src=$recipe.largeCover>
     <div class="card-body">
         <h2 class="card-title">$recipe.getName()</h2>
         <p class="card-text">$recipe.getDescription()</p>

@@ -12,11 +12,10 @@ import static app.Main.userDao;
 public class IndexController {
     public static Handler serveIndexPage = ctx -> {
         Map<String, Object> model = ViewUtil.baseModel(ctx);
-//        model.put("users", userDao.getAllUserNames());
+ //       model.put("users", userDao.getAllUserNames());
         model.put("newRecipe", recipeDao.getNewest());
         model.put("popularRecipe", recipeDao.getPopular());
         model.put("recipe", recipeDao.getRandomRecipe());
         ctx.render(Path.Template.INDEX, model);
-//        ctx.render(Path.Template.INDEX);
     };
 }

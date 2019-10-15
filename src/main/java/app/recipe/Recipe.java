@@ -1,5 +1,7 @@
 package app.recipe;
 
+import app.user.User;
+
 import java.util.Date;
 
 public class Recipe {
@@ -8,17 +10,20 @@ public class Recipe {
     private String name;
     private String description;
     private String ingredients;
+    private String category;
     private Date publicationTime;
-    private String author;
+    private int authorId;
     private int rating;
 
-    public Recipe(int id, String name, String description, String ingredients, Date publicationTime, String author, int rating) {
+    public Recipe(int id, String name, String description, String ingredients, String category, Date publicationTime,
+                  int authorId, int rating) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.ingredients = ingredients;
+        this.category = category;
         this.publicationTime = publicationTime;
-        this.author = author;
+        this.authorId = authorId;
         this.rating = rating;
     }
 
@@ -54,6 +59,10 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    public String getCategory() { return category; }
+
+    public void setCategory(String category) { this.category = category; }
+
     public Date getPublicationTime() {
         return publicationTime;
     }
@@ -62,12 +71,12 @@ public class Recipe {
         this.publicationTime = publicationTime;
     }
 
-    public String getAuthor() {
-        return author;
+    public int getAuthor() {
+        return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(int author) {
+        this.authorId = author;
     }
 
     public int getRating() {
@@ -78,11 +87,5 @@ public class Recipe {
         this.rating = rating;
     }
 
-    public String getMediumCover() {
-        return "G:\\Лера\\Project\\src\\main\\resources\\public\\img\\" + this.id + ".jpg";
-    }
-
-    public String getLargeCover() {
-        return "G://Лера//Project//src//main//resources//public//img//" + this.id + ".jpg";
-    }
+    public String getLargeCover() { return "/img/" + this.getId() + ".jpg"; }
 }

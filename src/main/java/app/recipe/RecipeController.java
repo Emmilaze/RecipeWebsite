@@ -21,4 +21,8 @@ public class RecipeController {
         model.put("recipe", recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx))));
         ctx.render(Path.Template.RECIPES_ONE, model);
     };
+
+//TODO: метод для создания, редактирования, удаление, голосование
+
+
 }

@@ -19,21 +19,21 @@ public class LoginController {
         ctx.render(Path.Template.LOGIN);
     };
 
-    public static Handler handleLoginPost = ctx -> {
-        Map<String, Object> model = ViewUtil.baseModel(ctx);
-        if (!UserController.authenticate(getQueryUsername(ctx), getQueryPassword(ctx))) {
-            model.put("authenticationFailed", true);
-            ctx.render(Path.Template.LOGIN, model);
-        } else {
-            ctx.sessionAttribute("currentUser", getQueryUsername(ctx));
-            model.put("authenticationSucceeded", true);
-            model.put("currentUser", getQueryUsername(ctx));
-            if (getQueryLoginRedirect(ctx) != null) {
-                ctx.redirect(getQueryLoginRedirect(ctx));
-            }
-            ctx.render(Path.Template.LOGIN, model);
-        }
-    };
+//    public static Handler handleLoginPost = ctx -> {
+//        Map<String, Object> model = ViewUtil.baseModel(ctx);
+//        if (!UserController.authenticate(getQueryUsername(ctx), getQueryPassword(ctx))) {
+//            model.put("authenticationFailed", true);
+//            ctx.render(Path.Template.LOGIN, model);
+//        } else {
+//            ctx.sessionAttribute("currentUser", getQueryUsername(ctx));
+//            model.put("authenticationSucceeded", true);
+//            model.put("currentUser", getQueryUsername(ctx));
+//            if (getQueryLoginRedirect(ctx) != null) {
+//                ctx.redirect(getQueryLoginRedirect(ctx));
+//            }
+//            ctx.render(Path.Template.LOGIN, model);
+//        }
+//    };
 
     public static Handler handleLogoutPost = ctx -> {
         ctx.sessionAttribute("currentUser", null);

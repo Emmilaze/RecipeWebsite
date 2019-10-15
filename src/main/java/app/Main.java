@@ -19,13 +19,11 @@ import static io.javalin.apibuilder.ApiBuilder.post;
 
 public class Main {
 
-    // Declare dependencies
     public static RecipeDao recipeDao;
     public static UserDao userDao;
 
     public static void main(String[] args) {
 
-        // Instantiate your dependencies
         recipeDao = new RecipeDao();
         userDao = new UserDao();
 
@@ -41,7 +39,7 @@ public class Main {
             get(Path.Web.RECIPES, RecipeController.fetchAllRecipes);
             get(Path.Web.ONE_RECIPE, RecipeController.fetchOneRecipe);
             get(Path.Web.LOGIN, LoginController.serveLoginPage);
-            post(Path.Web.LOGIN, LoginController.handleLoginPost);
+//            post(Path.Web.LOGIN, LoginController.handleLoginPost);
             get(Path.Web.POST, PostController.serveIndexPage);
             post(Path.Web.LOGOUT, LoginController.handleLogoutPost);
         });

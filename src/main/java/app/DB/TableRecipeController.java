@@ -5,59 +5,54 @@ import static app.DB.DataBaseController.*;
 
 public class TableRecipeController {
 
-    public static void insertRecipe(){
-            try {
-                connect();
-                stmt = c.createStatement();
-                String sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                        + "VALUES (1, 'Paul', 32, 'California', 20000.00 );";
-                stmt.executeUpdate(sql);
-                stmt.executeUpdate(sql);
-
-                stmt.close();
-                c.commit();
-                c.close();
-            } catch (Exception e) {
-                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-                System.exit(0);
-            }
-            System.out.println("Records added successfully");
-        }
-
-    public static void deleteRecipe(int id){
+    public static void insertRecipe(String name, String description, String ingredients, String category, String date,
+                                    String authorId) {
         try {
             connect();
             stmt = c.createStatement();
-            String sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                    + "VALUES (1, 'Paul', 32, 'California', 20000.00 );";
-            stmt.executeUpdate(sql);
+            String sql = "INSERT INTO recipes VALUES (" + DataBaseController.getNextId("recipes") + ", \"" + name
+                    + "\", \"" + description + "\", \"" + ingredients + "\", \"" + category + "\", \"" + date
+                    + "\", \"" + authorId + "\", " + 0 + ");";
             stmt.executeUpdate(sql);
 
             stmt.close();
             c.commit();
             c.close();
         } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        System.out.println("Records delete successfully");
+        System.out.println("Records create successfully");
     }
 
-    public static void updateRecipe(){
+    public static void updateRecipe(String name, String description, String ingredients, String category, int id) {
         try {
             connect();
             stmt = c.createStatement();
-            String sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                    + "VALUES (1, 'Paul', 32, 'California', 20000.00 );";
-            stmt.executeUpdate(sql);
+            String sql = "UPDATE recipes SET name = \"" + name + "\", description =  \"" + description +
+                    "\", ingredients = \"" + ingredients + "\", category = \"" + category + "\" WHERE id = " + id + ";";
             stmt.executeUpdate(sql);
 
             stmt.close();
             c.commit();
             c.close();
         } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        System.out.println("Records updated successfully");
+    }
+
+    public static void upRating(int id){
+        try {
+            connect();
+            stmt = c.createStatement();
+            String sql = "UPDATE recipes SET viewed+=1 WHERE id = " + id + ";";
+            stmt.executeUpdate(sql);
+
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         System.out.println("Records updated successfully");
     }
