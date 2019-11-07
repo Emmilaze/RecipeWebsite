@@ -5,18 +5,17 @@ import io.javalin.http.ErrorHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-import static app.util.RequestUtil.*;
+import static app.util.RequestUtil.getSessionCurrentUser;
 
 public class ViewUtil {
 
     public static Map<String, Object> baseModel(Context ctx) {
         Map<String, Object> model = new HashMap<>();
-        model.put("msg", new MessageBundle(getSessionLocale(ctx)));
         model.put("currentUser", getSessionCurrentUser(ctx));
         return model;
     }
 
-    public static ErrorHandler notFound = ctx -> {
+    public final static ErrorHandler notFound = ctx -> {
         ctx.render(Path.Template.NOT_FOUND, baseModel(ctx));
     };
 

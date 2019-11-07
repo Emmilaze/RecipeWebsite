@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+       <link rel="shortcut icon" href="../../img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../vendor/fontawesome-free-5.11.2-web/css/all.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <link href="../../vendor/fontawesome-free-5.11.2-web/css/all.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="../../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style_login.css">
+
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top padding">
+    <div class="container-fluid margin nav">
+      <div class=" padding logo">
+              <a href="/index">
+                <img class="first" src="img/logo.png" alt="">
+                <img class="second" src="img/favicon.png" alt="">
+              </a>
+          </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="/index">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+          #if ($currentUser)
+          <li class="nav-item"><a  class="nav-link" href="/profile_page">Profile</a></li>
+                            #if ($currentUser.getPrivilege() != -1)
+                    <li class="nav-item"><a  class="nav-link" href="/create_recipe">Add&nbsp;recipe</a></li>
+                    #end
+          <li class="nav-item"><a  class="nav-link" class="more" href="">Log&nbsp;Out</a></li>
+          #else
+          <li class="nav-item"><a class="nav-link" href="/login">Log&nbsp;In</a></li>
+          #end
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="container-fluid menu padding">
+    <div class=" margin row ">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <div class="forms">
+              <h1 style="text-align: center;">Login</h1>
+            <form id= "login" class="login-form" method="POST">
+              #if($authenticationFailed)
+                  <p class="bad notification">Wrong password</p>
+              #end
+              <div class="txtb">
+                <input type="text" placeholder="Username" name="username" required="">
+                <span data-placeholder="Username"></span>
+              </div>
+
+              <div class="txtb">
+                <input type="password" placeholder="Password" name="password" required="">
+                <span data-placeholder="Password"></span>
+              </div>
+
+              <input type="submit" class="logbtn" value="Login"  required="">
+
+              <div class="bottom-text">
+                Don't have an account?<a href="/registr"> Create one.</a>
+              </div>
+            </form>     
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+  </body>
+</html>

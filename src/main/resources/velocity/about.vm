@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+   <title>Cook Eat Repeat</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="vendor/fontawesome-free-5.11.2-web/css/all.css" rel="stylesheet">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+      <link href="css/style.css" rel="stylesheet">
+
+  </head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top padding">
+    <div class="container-fluid margin nav">
+        <div class=" padding logo">
+            <a href="/index">
+                <img class="first" src="img/logo.png" alt="">
+                <img class="second" src="img/favicon.png" alt="">
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/index">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                #if ($currentUser)
+                    #if ($currentUser.getPrivilege() == 2)
+                        <li class="nav-item"><a class="nav-link" href="/profile_page">Profiles</a></li>
+                    #end
+                                    #if ($currentUser.getPrivilege() != -1)
+                              <li class="nav-item"><a  class="nav-link" href="/create_recipe">Add&nbsp;recipe</a></li>
+                              #end
+                    <form action="/logout">
+                        <li class="nav-item"><a class="nav-link" class="more" href="/logout">
+                            <button class="like-link">Log&nbsp;Out</button>
+                        </a></li>
+                    </form>
+                #else
+                    <li class="nav-item"><a class="nav-link" href="/login">Log&nbsp;In</a></li>
+                #end
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid menu padding">
+    <div class=" margin row for-menu">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class=" margin row ">
+              <div class="card  ">
+                <div class="card-body row">
+                  <div class="col-xs-12 col-sm-12 col-md-12">
+                    <h2 style="text-align: center;">Terms of Use</h2>
+                <ol>
+                <li> This user agreement (here and after referred as the Agreement) is a list of conditions for using the <b> Coock Eat Repeat </b> website (here and after referred as the Site), represented by the the Site Administration and an individual (here and after referred as the User), and governing the provision by the User of information for posting on the Site. </li>
+                <li> The Site User is considered to be any physical person who has ever accessed the Site and has reached the age acceptable for acceptance of this Agreement. </li>
+                <li> The User is obliged to fully familiarize themselves with this Agreement before registering on the Site. Registration of the User on the Site means the full and unconditional acceptance by the User of this Agreement. In case of disagreement with the terms of the Agreement, the use of the Site by the User should be immediately terminated. </li>
+                <li> This Agreement may be amended and / or supplemented by the Site Administration unilaterally without any special notice. These Rules are an open and public document. </li>
+                   <li> The agreement provides for the mutual rights and obligations of the User and the Site Administration in the following areas:
+                   <ul>
+                   <li> • How to use the Site, </li>
+                   <li> • Privacy Policy, </li>
+                   <li> • Limitation of liability of the Site Administration, </li>
+                   <li> • Agreement Procedure </li>
+                   </ul>
+                   </ol>
+                   </li>
+                   <hr>
+                   <li> <b> How to use the Site </b> <br> <hr>
+                   <ol>
+                   <li> The site allows you to view and download information from our site solely for personal non-commercial use. It is forbidden to modify the materials of the site, to distribute for public or commercial purposes. Any use of information on other sites or on computer networks is prohibited. </li>
+                   <li> When registering on the site and placing orders, you agree to provide reliable and accurate information about yourself and your contact details. </li>
+                   <li> During the registration process on the site, you receive a username and password for the safety of which you are responsible. </li>
+                   <li> You can contact us with questions, complaints, suggestions for improving the work, or with any other information. At the same time, you are responsible that this appeal is not illegal, threatening, violates copyrights, discrimination of people on any grounds, and also contains insults or otherwise violates the current legislation of Ukraine. </li>
+                     </ol>
+                     </li>
+                     <hr>
+                     <li> <b> User Personal Information </b> <br> <hr>
+                     <ol>
+                     <li> The administration of the site with respect and responsibility refers to the confidential information of any person who has become a visitor to this site. By accepting this Agreement, the User agrees to the collection and use of certain information about the User in accordance with the provisions of the Law of Ukraine “On the Protection of Personal Data” and the policy of the Site Administration on the protection of personal data. In addition, the user agrees that the Site Administration may collect, use, transfer, process and maintain information related to the User’s account in order to provide relevant services. </li>
+                  <li> The site administration undertakes to collect only that personal information that the Consumer provides voluntarily in the event that the information is needed to provide (improve) the services to the Consumer. </li>
+                  <li> The user agrees that the confidentiality of data transmitted via the Internet is not guaranteed if access to this data is obtained by third parties outside the technical means of communication subject to the Site Administration, the Site Administration is not responsible for damage caused by such access. </li>
+                   <li> The site administration may use any information collected through the Site in order to improve the content of the site, improve it, transmit information to the User (upon request), for marketing or research purposes, as well as for other purposes that do not contradict the provisions of the current legislation of Ukraine. </li>
+                  </ol>
+                  </li>
+                  <hr>
+                  <li> <b> Disclaimer of the Site Administration </b> <br> <hr>
+                  <ol>
+                  <li> The site administration does not bear any responsibility for any errors, typos or inaccuracies that may be found in the materials contained on this Site. The site administration makes all necessary efforts to ensure the accuracy and reliability of the information presented on the Site. All information and materials are provided on an "as is" basis, without any warranties, either express or implied. </li>
+                  <li> Information on the Site is constantly updated and may become outdated at any time. Administration of site is not responsible for receiving outdated information from the Site, as well as for the inability of the User to receive updates of information stored on the Site. </li>
+                  <li> The site administration is not responsible for possible illegal actions of the User in relation to third parties or third parties in relation to the User. </li>
+                  <li> The site administration is not responsible for the statements of the User made or published on the Site. </li>
+                  <li> The site administration is not responsible for damage, loss or expense (real or possible) that has occurred in connection with this Site, its use or inability to use. </li>
+                 <li> The site administration is not responsible for the User losing the ability to access his account - the account on the Site. </li>
+                  <li> The site administration is not responsible for the incomplete, inaccurate, incorrect indication by the User of his data when creating the User account. </li>
+                  <li> If you encounter problems in using the Site, disagreeing with specific sections of the User Agreement, or when the User receives inaccurate information from third parties, or offensive information, or any other unacceptable information, please contact the Site Administration so that the Site Administration can analyze and eliminate the corresponding defects, limit and prevent the receipt of undesirable information on the Site, and, if necessary, limit or terminate it the obligation to provide its services to any users and customers, deliberately violates the provisions of the Agreement and the functioning of the Site. </li>
+                  <li> For the purposes of the foregoing, the Site Administration reserves the right to delete information posted on the Site and take technical and legal measures to terminate access to the Site by Users who create, according to the conclusion, the Site Administration problems in using the Site by other Users, or Users who violate the requirements of the Agreement .
+                  </li>
+                  </ol>
+                  </li>
+                  <hr>
+                  <li> <b> Agreement Procedure </b> <br> <hr>
+                  <ol>
+                  <li> This Agreement is a contract. The site administration reserves the right to change this Agreement as well as introduce a new one. Such changes take effect from the moment they are posted on the Site. The use of the site materials by the User after the amendment of the Agreement automatically means their acceptance.
+                  <li> This Agreement shall enter into force upon the first visit to the Site by the User and is valid between the User and the Company throughout the entire period of use by the User of the Site. </li>
+                  <li> The site is the object of intellectual property rights of the Site Administration. All exclusive property copyrights to the site belong to the Site Administration. Use of the site by users is possible strictly within the framework of the Agreement and the legislation of Ukraine on intellectual property rights. </li>
+                  <li> All trademarks and names referenced in the materials of this Site are the property of their respective owners. </li>
+                 <li> The User agrees not to reproduce, repeat, copy, any parts of the Site, except when such permission was given to the User by the Site Administration. </li>
+                 <li> This Agreement is governed by and construed in accordance with the laws of Ukraine. Issues not regulated by the Agreement shall be resolved in accordance with the legislation of Ukraine. </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<footer class="col-xs-12 col-sm-12 col-md-12 ">
+  <div class="row">
+  <div class="site_name col-xs-4 col-sm-4 col-md-4 padding margin">
+      </div>
+      <div class="social col-xs-3 col-sm-3 col-md-3 padding margin">
+      </div>
+      <div class=" site_name col-xs-4 col-sm-4 col-md-4 padding margin">
+        <span>All rights are reserved &copy; <?=date('Y') ?></span>
+      </div>
+      </div>
+</footer>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+</body>
+</html>
+                    <hr>
