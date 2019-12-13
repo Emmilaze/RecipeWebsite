@@ -1,0 +1,12 @@
+#parse("/velocity/header.vm")
+#@mainLayout()
+<div class="topPartItem logReg">
+    <div class="topWrap">
+        <div class=" topPartItem " style="margin: 10% auto">
+            <h1 style="margin:auto">To be able to use all functionality of the site please confim your registration by
+                following the link from regestered Email.</h1>
+            It may be in spam folder.
+        </div>
+    </div>
+</div>
+#end

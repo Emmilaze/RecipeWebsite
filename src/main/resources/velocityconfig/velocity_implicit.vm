@@ -10,6 +10,19 @@
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
 #* @vtlvariable name="newRecipe" type="app.recipe.Recipe" *#
 #* @vtlvariable name="popularRecipe" type="app.recipe.Recipe" *#
-#* @vtlvariable name="str" type="java.lang.String" *#
+#* @vtlvariable name="str" type="java.lang.Iterable<java.lang.String>" *#
 #* @vtlvariable name="haveVoted" type="java.lang.Boolean" *#
 #* @vtlvariable name="noMatch" type="java.lang.Boolean" *#
+#* @vtlvariable name="categories" type="java.lang.Iterable<java.lang.String>" *#
+#* @vtlvariable name="category" type="app.category.Category" *#
+#* @vtlvariable name="comment" type="app.comment.Comment" *#
+#* @vtlvariable name="comments" type="java.lang.Iterable<app.comment.Comment>" *#
+#* @vtlvariable name="downloads" type="java.lang.Iterable<app.downloads.Downloads>" *#
+#* @vtlvariable name="recipesAmount" type="java.lang.Integer" *#
+#* @vtlvariable name="usersAmount" type="java.lang.Integer" *#
+#* @vtlvariable name="stat" type="java.util.HashMap<java.lang.String, Integer>" *#
+#* @vtlvariable name="categoryStat" type="java.util.HashMap<java.lang.String, Integer>" *#
+#* @vtlvariable name="categoryAmount" type="java.lang.Integer" *#
+#* @vtlvariable name="next" type="java.lang.Integer" *#
+#* @vtlvariable name="previous" type="java.lang.Integer" *#
+#* @vtlvariable name="present" type="java.lang.Integer" *#

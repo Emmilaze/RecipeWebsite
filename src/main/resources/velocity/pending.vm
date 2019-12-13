@@ -1,0 +1,26 @@
+#parse("/velocity/header.vm")
+#@mainLayout()
+<link rel="stylesheet" href="../../css/index.css">
+    #if($noMatch)
+    <div class="topPartItem logReg">
+        <div class="topWrap">
+            <div class=" topPartItem " style="margin: 10% auto">
+                <h1 style="margin:auto">There are nothing to Approve.</h1>
+            </div>
+        </div>
+    </div>
+    #else
+        #foreach($recipe in $recipes)
+        <div class="recipes">
+            <div class="forImg">
+                <img src="" data-src="$recipe.getImg()" alt="">
+                <div class="text">
+                    <h2>$recipe.getName()</h2>
+                    <a href="/recipes/$recipe.id" class="read">Read more</a>
+                </div>
+            </div>
+        </div>
+        #end
+    #end
+<script src="../../js/lazy.js"></script>
+#end

@@ -1,0 +1,139 @@
+.recipes {
+    border: 1px solid black;
+    float: left;
+    height: 225px;
+    width: 30%;
+    box-shadow: 0 5px 20px rgba(33, 33, 33, .2);
+    margin-left: 2.5%;
+    margin-top: 2.5%;
+    position: relative;
+    background: #8c8b8b;
+}
+
+.text {
+    z-index: 2;
+    color: white;
+    text-align: center;
+    position: absolute;
+    background: rgb(0, 0, 0, 0.7);
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 225px;
+
+}
+
+.text h2 {
+    display: block;
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 20px;
+    font-size: 25px;
+    line-height: 30px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px;
+    text-overflow: ellipsis;
+}
+
+.forImg {
+    position: relative;
+}
+
+.recipes img {
+    top: 0;
+    left: 0;
+    height: 225px;
+}
+
+.read {
+    text-align: center;
+    position: absolute;
+    bottom: 15px;
+    right: 20%;
+    width: 40%;
+    vertical-align: bottom;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 15px;
+    border-radius: 20px;
+}
+
+.read:hover, #loadMore:hover {
+    color: yellow;
+    border: 2px solid yellow;
+    transition: 0.3s;
+}
+
+@media screen and (max-width: 850px) {
+    .recipes {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 680px) {
+    .inputSearch {
+        width: 50%;
+    }
+
+    .siteName > h1 {
+        font-size: 20px;
+    }
+
+    .recipes {
+        width: 66%;
+        margin-left: 16%;
+    }
+
+    .ingr {
+        width: 95%;
+    }
+}
+
+::-webkit-scrollbar {
+    background: #ddd;
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px #00000070;
+    border-radius: 10px;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(125deg, #3498db, #34495e);
+    border-radius: 10px;
+
+}
+
+.pagination {
+    margin: 10px auto 0;
+    width: 40%;
+    text-align: center;
+}
+
+.prev, .next {
+    display: inline-block;
+    text-align: center;
+    width: 80px;
+    margin: 15px auto 0;
+}
+
+.menuItems > a > * {
+    padding-top: 25px;
+    font-size: 30px;
+    text-align: center;
+    color: black;
+}
+
+.prev {
+    border-radius: 10px 0 0 10px;
+}
+
+.next {
+    border-radius: 0 10px 10px 0;
+}

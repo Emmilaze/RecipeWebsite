@@ -1,75 +1,10 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
-    <title>Cook Eat Repeat</title>
-    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="vendor/fontawesome-free-5.11.2-web/css/all.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <link href="css/style.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top padding">
-    <div class="container-fluid margin nav">
-        <div class=" padding logo">
-            <a href="/index">
-                <img class="first" src="img/logo.png" alt="">
-                <img class="second" src="img/favicon.png" alt="">
-            </a>
+#parse("/velocity/header.vm")
+#@mainLayout()
+<div class="topPartItem logReg">
+    <div class="topWrap">
+        <div class=" topPartItem " style="margin: 10% auto">
+            <h1 style="margin:auto">Nothing has matched your criterias.</h1>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                   #if ($currentUser)
-               <form action="/logout"> <li class="nav-item"><a  class="nav-link" class="more" href="/logout"><button class="like-link">Log&nbsp;Out</button></a>   <!-- desctoy session*/ --></li></form>
-           #else
-          <li class="nav-item"><a class="nav-link" href="/login">Log&nbsp;In</a></li>
-          #end
-        </ul>
-      </div>
     </div>
-  </nav>
-
-<div class="container-fluid menu padding">
-    <div class=" margin row for-menu">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class=" margin row " id="loop">
-        <h1 style="margin:auto">Nothing has matched your criterias</h1>
-                    </div>
-
-                <div class="row margin padding" "="">
-                  </div>
-                </div>
-              </div>
-<div class="pre-footer"></div>
-<footer class="col-xs-12 col-sm-12 col-md-12 ">
-  <div class="row">
-  <div class="site_name col-xs-4 col-sm-4 col-md-4 padding margin">
-      </div>
-      <div class="social col-xs-3 col-sm-3 col-md-3 padding margin">
-      </div>
-      <div class=" site_name col-xs-4 col-sm-4 col-md-4 padding margin">
-        <span>All rights are reserved &copy; <?=date('Y') ?></span>
-      </div>
-      </div>
-</footer>
-
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/scripts.js"></script>
-
-</body>
-</html>
+</div>
+#end

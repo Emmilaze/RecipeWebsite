@@ -1,0 +1,127 @@
+#macro(mainLayout)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cook Eat Repeat</title>
+    <meta name="description" content="Recipes for all tastes/situations/whatever else you can think about.">
+    <meta name="keywords" content="">
+    <meta name="generator" content="CookEatRepeat">
+    <meta name="viewport">
+    <link rel="shortcut icon" href="../../img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="../../vendor/fontawesome-free-5.11.2-web/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/header.css">
+</head>
+<body>
+<div class="wrp">
+    <div class="content">
+        <div class="leftMenu">
+            <div class="menuItems" style="position: absolute;
+                                              left: 0;">
+                <a href="/index/1" class="logo" aria-label="home">
+                    <img src="../../img/favicon.png" data-src="../../img/favicon.png" alt="">
+                </a>
+            </div>
+            <div class="siteName" style="padding-left: 70px;">
+                <h1 id="siteName"> Cook Eat Repeat</h1>
+            </div>
+            <div class="bodyLeftMenu" id="bodyLeftMenu">
+                #if($currentUser)
+                    <div class="menuItems">
+                        <form action="/logout" class="nav-link" style="padding:0;">
+                            <button class="login btn"><i class="fas fa-sign-out-alt"></i></button>
+                        </form>
+                    </div>
+                    <div class="menuItems">
+                        <a class="menuItems nav-link more" href="/profile_page" aria-label="profile">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </div>
+                #else
+                    <div class="menuItems">
+                        <a class="nav-link menuItems" href="/login" aria-label="login"><i
+                                class="fas fa-sign-in-alt"></i></a>
+                    </div>
+                #end
+                <div class="menuItems" id="show">
+                    <button class="btn" id="menu"><i class="fas fa-bars"></i></button>
+                </div>
+                <div class="menuItems" id="searchShow" onsubmit="return false">
+                    <button class="btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="navigation" id="navigation" tabindex="-1">
+                <a class="nav-link" href="/index/1" aria-label="home"><b>Home</b></a>
+                <a class="nav-link" href="/about" aria-label="terms"><b>Terms of Use</b></a>
+                #if($currentUser)
+                    #if($currentUser.getPrivilege()>0)
+                        <a class="nav-link" href="/my_recipes" aria-label="my recipes"><b>My&nbsp;recipes</b></a>
+                        #if ($currentUser.getPrivilege() > 2)
+                            <a class="nav-link" href="/unconfirmed_recipes" aria-label="unconfirmed"><b>Pending&nbsp;Approval</b></a>
+                        #end
+                        <a class="nav-link" href="/followed" aria-label="follows"><b>Liked</b></a>
+                        #if($currentUser.getPrivilege() > 0)
+                            <a class="nav-link" href="/create_recipe"><b>Add&nbsp;recipe</b></a>
+                        #end
+                    #end
+                #end
+                <a class="nav-link" href="/report" aria-label="report"><b>Report to us</b></a>
+                <div style="clear:both"></div>
+            </div>
+            <div class="navigation" id="searchMenu" tabindex="-1">
+                <form action="/search" onsubmit="getCheckedBoxes()" name="searchForm" style="margin:0;"
+                      onsubmit="return false">
+                    <div class="search">
+                        <input class="inputSearch" type="text" id="Search" placeholder="Search" name="title">
+                        <button type="submit" class="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <a href="javascript:void(0)" class="advanced" id="showAdvance">
+                        Ingredients
+                    </a>
+                    <div class="advance" id="colapsed">
+                        <input type="text" placeholder="Search.." id="myFilter" class="inputSearch"
+                               onkeyup="filterFunction()">
+                        <div class="filter" id="filter">
+                            #foreach($str in $ingredients)
+                                <label class="ingredient"><input type="checkbox" name="ingr" value="$str"><span
+                                        name="ingr">$str</span></label>
+                            #end
+                        </div>
+                    </div>
+                </form>
+                <div style="position: absolute; top: 15px; right: 5px;">
+                    <form action="/sort_date/1" name="sort" style="margin: 0; display: inline-block;">
+                        <button id="Date" name="Date" class="searchBtn"><i class="fas fa-calendar-day"></i></button>
+                    </form>
+                    <form action="/sort_rating/1" name="sort" style="margin: 0; display: inline-block;">
+                        <button id="Rating" name="Rating" class="searchBtn"><i class="fas fa-thumbs-up"></i></button>
+                    </form>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            #if($currentUser)
+                <div style="font-size: 25px; font-family: 'Open Sans', sans-serif; width: 100%;text-align: center;margin-bottom: 15px;background: white;">
+                    <b>$currentUser.getUsername()</b>
+                </div>
+                <div style="clear:both"></div>
+            #end
+        </div>
+        <div class="rightMenu"  #if($currentUser)style="margin-top: 45px;"#end>
+                $bodyContent
+        </div>
+         <div style="clear:both"></div>
+    </div>
+    <a href="#siteName" class="goTop" id="goTop"><i class="fas fa-arrow-up"></i></a>
+
+</div>
+
+
+</body>
+
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../js/header.js"></script>
+
+</html>
+#end

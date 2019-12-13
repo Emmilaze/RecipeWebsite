@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.db.TableRecipeController;
+import app.util.Cleaner;
 import app.util.Path;
 import app.util.ViewUtil;
 import io.javalin.http.Handler;
@@ -11,61 +11,84 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static app.Main.categoryDao;
 import static app.Main.recipeDao;
-import static app.Main.userDao;
+import static app.util.FileMethods.renameFile;
 import static app.util.RequestUtil.*;
 
+/**
+ * Class controller of recipe creating page.
+ */
 public class PostController {
 
+    /**
+     * Serve the page with creating recipe. If user is not logged in - redirect to main page.
+     */
     public final static Handler servePostPage = ctx -> {
         Map<String, Object> model = ViewUtil.baseModel(ctx);
-        if(userDao.u.getPrivilege() != -1) {
-            model.put("currentUser", userDao.getU());
+        model.put("categories", categoryDao.getCategoriesName());
+        if(getSessionCurrentUser(ctx).getPrivilege() > 0) {
             ctx.render(Path.Template.POST, model);
         }else{
-            ctx.render("/index");
+            ctx.render("/index/1");
         }
     };
 
+    /**
+     * Method-post with creating a recipe.
+     * Download the user's image for recipe to the img package.
+     * Add ingredients to the list.
+     * Convert date to the right format.
+     * Try to make a record in the Data Base.
+     * Redirect to the main page.
+     */
     public final static Handler handleCreatePost = ctx -> {
         ctx.uploadedFiles("files").forEach(file -> {
             try {
                 FileUtils.copyInputStreamToFile(file.getContent(),
-                        new File("./src/main/resources/public/img/" + file.getFilename()));
-                ctx.html("Upload successful");
+                        new File("./image/" + file.getFilename()));
             } catch (IOException e) {
-                ctx.html("Upload failed");
+                System.out.println(e);
             }
-
             String str = "";
             List<String> list = getQueryIngredients(ctx);
             for (int i = 0; i < list.size(); i++) {
-                if (i == 0)
+                if (i == 0) {
+                    str = Cleaner.removeAllTags(str);
                     str += list.get(i);
-                else
+                }
+                else {
+                    str = Cleaner.removeAllTags(str);
                     str += ", " + list.get(i);
+                }
             }
             String string = getQueryDate(ctx) + " " + getQueryTime(ctx);
+            string = Cleaner.removeAllTags(string);
             DateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Date date;
-
             try {
                 date = format1.parse(string);
+                boolean approved = false;
+                if(getSessionCurrentUser(ctx).getPrivilege()>1)
+                    approved = true;
                 if(file.getFilename().isEmpty())
-                    recipeDao.createRecipe(getQueryName(ctx), "logo.png", str, getQueryDescription(ctx),
-                            date, userDao.u.getId());
-                else
-                recipeDao.createRecipe(getQueryName(ctx), file.getFilename(), str, getQueryDescription(ctx),
-                        date, userDao.u.getId());
+                    recipeDao.createRecipe(Cleaner.removeAllTags(getQueryName(ctx)), "logo.png", str,
+                            Cleaner.removeBadTags(getQueryDescription(ctx)),
+                            categoryDao.getCategoryByName(getQueryCategory(ctx)),
+                            date, getSessionCurrentUser(ctx).getId(), approved);
+                else {
+                    String picName = renameFile(file.getFilename());
+                    recipeDao.createRecipe(Cleaner.removeAllTags(getQueryName(ctx)), picName, str,
+                            Cleaner.removeBadTags(getQueryDescription(ctx)),
+                            categoryDao.getCategoryByName(getQueryCategory(ctx)),
+                            date, getSessionCurrentUser(ctx).getId(), approved);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         });
-
-        ctx.redirect("/index");
+        ctx.redirect("/index/1");
     };
 }

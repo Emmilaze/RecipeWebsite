@@ -1,0 +1,39 @@
+@media screen and (max-width: 1024px)
+    #login {
+        margin: 0;
+    }
+
+    #login {
+        height: 300px;
+        left: auto;
+        right: 0;
+    }
+
+    #login {
+        margin: 0;
+    }
+
+    .login-form {
+        padding: 0 10%;
+    }
+
+    .imp > label {
+        padding: 10px;
+        color: black;
+    }
+
+    .imp > * {
+        display: block;
+    }
+
+    .form-group > input {
+        margin-bottom: 5px;
+        outline: none;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        color: black;
+        border: 1px solid black;
+    }
+}

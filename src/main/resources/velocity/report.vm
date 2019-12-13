@@ -1,0 +1,18 @@
+#parse("/velocity/header.vm")
+<link rel="stylesheet" href="../../dist/pell.css">
+<link rel="stylesheet" href="../../css/logreg.css">
+#@mainLayout()
+<div class="topPartItem logReg">
+
+    <form id="register" class="login-form" method="POST" enctype="multipart/form-data">
+        <h2>Report a problem</h2>
+        <p>Email for bugs:g3@tss2019.repositoryhosting.com</p>
+        <div id="editor" class=" divtext pell" required=""></div>
+        <textarea id="html-output" name="description" style="display: none;" required=""></textarea>
+        <input type="submit" style="margin-top:10px;" class="searchBtn" value="Send" required="">
+    </form>
+
+</div>
+#end
+<script src="../../dist/pell.js"></script>
+<script src="../../dist/pell_init.js"></script>

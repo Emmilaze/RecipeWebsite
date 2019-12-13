@@ -1,0 +1,22 @@
+#parse("/velocity/header.vm")
+#@mainLayout()
+<link rel="stylesheet" href="../../css/index.css">
+    #if($noMatch)
+    <h1 style="margin:auto">Nothing has matched your criterias</h1>
+    #else
+        #foreach($recipe in $recipes)
+        <div class="recipes">
+            <div class="forImg">
+                <img src="" data-src=$recipe.getImg() alt="">
+                <div class="text">
+                    <h2>$recipe.getName()</h2>
+                    <a href="/recipes/$recipe.id" class="read">Read more</a>
+                </div>
+            </div>
+        </div>
+        #end
+    #end
+<div style="clear:both"></div>
+<div style="clear:both"></div>
+<script async src="../../js/lazy.js"></script>
+#end

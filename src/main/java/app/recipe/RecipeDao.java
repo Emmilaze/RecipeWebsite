@@ -1,87 +1,181 @@
 package app.recipe;
 
 import app.db.DataBaseController;
+import app.db.TableDownloadController;
 import app.db.TableRecipeController;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Class DAO for recipes methods.
+ */
 public class RecipeDao {
 
-    public List<Recipe> recipes = new ArrayList<Recipe>(TableRecipeController.getRecipes());
+    /**
+     * List of recipes from the Data Base.
+     */
+    public List<Recipe> recipes = new ArrayList<Recipe>();
 
+    /**
+     * List of recipes from search. Null, if search don't need.
+     */
     public List<Recipe> seachedList = null;
 
-    public List<Recipe> unPosted = new ArrayList<Recipe>(TableRecipeController.getUnposted());
-
-    public Iterable<Recipe> getAllRecipes() {
-        recipes = TableRecipeController.getRecipes();
-        return recipes;
+    /**
+     * Method to fill the list with posted recipes.
+     *
+     * @return list of recipes.
+     */
+    public Iterable<Recipe> getAllRecipes(int pageNumber) {
+        return recipes = TableRecipeController.getRecipes(pageNumber);
     }
 
+    /**
+     * Method return recipe by id.
+     *
+     * @param id - recipe id.
+     * @return recipe.
+     */
     public Recipe getRecipeById(int id) {
-        return recipes.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
+        return TableRecipeController.getRecipe(id);
     }
 
-    public Recipe getRandomRecipe() {
-        return recipes.get(new Random().nextInt(recipes.size()));
-    }
-
-    public List<Recipe> getPopular() {
+    /**
+     * Method sort list of recipes by votes.
+     *
+     * @return list of sorted recipes.
+     */
+    public List<Recipe> getPopular(int page) {
         if (seachedList == null) {
-            recipes.sort(Comparator.comparing(Recipe::getRating).reversed());
-            return recipes;
+            return recipes = TableRecipeController.getPopularRecipes(page);
         } else {
             seachedList.sort(Comparator.comparing(Recipe::getRating).reversed());
             return seachedList;
         }
     }
 
-    public List<Recipe> getNewest() {
+    /**
+     * Method sort list of recipes by date.
+     *
+     * @return list of sorted recipes.
+     */
+    public List<Recipe> getNewest(int page) {
         if (seachedList == null) {
-            recipes.sort(Comparator.comparing(Recipe::getPublicationTime).reversed());
-            return recipes;
+            return recipes = TableRecipeController.getRecipes(page);
         } else {
             seachedList.sort(Comparator.comparing(Recipe::getPublicationTime).reversed());
             return seachedList;
         }
     }
 
-    public void createRecipe(String name, String img, String ingredients, String description,
-                             Date publicationTime, int authorId) {
+    /**
+     * Method create recipe with certain parameters. Make record in Data Base.
+     *
+     * @param name            - recipe name.
+     * @param img             - image of recipe.
+     * @param ingredients     - recipe ingredients.
+     * @param description     - recipe description.
+     * @param publicationTime - date and time of publication.
+     * @param authorId        - recipe author id.
+     */
+    public void createRecipe(String name, String img, String ingredients, String description, int category,
+                             Date publicationTime, int authorId, boolean approved) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-        TableRecipeController.insertRecipe(name, img, ingredients, description, format.format(publicationTime),
-                authorId);
-        Recipe recipe = new Recipe(DataBaseController.getNextId("recipes") - 1, name, img, ingredients,
-                description,
-                publicationTime, authorId, 0);
-
-        if (publicationTime.compareTo(new Date()) < 0)
-            recipes.add(recipe);
-        else
-            unPosted.add(recipe);
+        TableRecipeController.insertRecipe(name, img, ingredients, description, category, format.format(publicationTime),
+                authorId, approved);
     }
 
-    public void updateRecipe(String name, String img, String description, String ingredients, int id) {
-        TableRecipeController.updateRecipe(name, img, description, ingredients, id);
-        for(int i = 0; i<recipes.size(); i++){
-            Recipe recipe = recipes.get(i);
-            if(recipe.getId() == id)
-            {
-                recipe.setName(name);
-                recipe.setImg(img);
-                recipe.setDescription(description);
-                recipe.setIngredients(ingredients);
-                return;
-            }
+    /**
+     * Method update recipe with certain parameters. Make update in Data Base.
+     *
+     * @param name        - new recipe name.
+     * @param img         - new image of recipe.
+     * @param description - new recipe description.
+     * @param ingredients - new recipe ingredients.
+     * @param id          - recipe id.
+     */
+    public void updateRecipe(String name, String img, String description, String ingredients, int id, int category,
+                             String date, String time) {
+        DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat dataBaseFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+        String str;
+        try {
+            Date parsedDate  = sourceFormat.parse(date + " " + time);
+            str = dataBaseFormat.format(parsedDate);
+            TableRecipeController.updateRecipe(name, img, description, ingredients, id, category, str);
+        }catch (Exception e)
+        {
+            System.out.println(e);
         }
     }
 
+    /**
+     * Method call function to delete recipe from Data Base.
+     *
+     * @param id - recipe id.
+     */
     public void deleteRecipe(int id) {
         DataBaseController.deleteRecord("recipes", id);
     }
 
-    public Iterable<Recipe> getUnposted() {
-        return unPosted;
+    /**
+     * Method search the recipes by user in the Data Base.
+     *
+     * @return the list of recipes.
+     */
+    public List<Recipe> getRecipeByUser(int id) {
+        return TableRecipeController.getUserRecipes(id);
+    }
+
+    /**
+     * Method search the unconfirmed recipes in the Data Base.
+     *
+     * @return the list of recipes.
+     */
+    public Iterable<Recipe> getUnconfirmedRecipes() {
+        return TableRecipeController.getUnconfirmedRecipes();
+    }
+
+    /**
+     * Method change recipe status.
+     */
+    public void approveRecipe(int id) {
+        TableRecipeController.approveRecipe(id);
+    }
+
+    /**
+     * Method return liked recipes.
+     */
+    public List<Recipe> likedRecipes(int userId) {
+        return TableRecipeController.getLikedRecipes(userId);
+    }
+
+    /**
+     * Method return the amount of recipes.
+     *
+     * @return amount of recipes.
+     */
+    public int getAmount() {
+        return TableRecipeController.getAmountOfRecipes();
+    }
+
+    /**
+     * Method return the amount of recipes.
+     *
+     * @return hashmap with the statistics.
+     */
+    public HashMap<String, Integer> getStatistics() {
+        return TableRecipeController.getStatistics();
+    }
+
+    /**
+     * Method return the amount of pages.
+     *
+     * @return amount of pages.
+     */
+    public int getAmountOfPages() {
+        return TableRecipeController.getAmountOfPages();
     }
 }

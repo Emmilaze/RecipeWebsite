@@ -6,12 +6,23 @@ import io.javalin.http.Handler;
 
 import java.util.Map;
 
-import static app.Main.userDao;
-
+/**
+ * Class controller of terms of use page.
+ */
 public class AboutPageController {
+
+    /**
+     * Serve the page with terms of use.
+     */
     public final static Handler serveAboutPage = ctx -> {
         Map<String, Object> model = ViewUtil.baseModel(ctx);
-        model.put("currentUser", userDao.getU());
         ctx.render(Path.Template.ABOUT, model);
+    };
+
+    /**
+     * Serve the page with terms of use.
+     */
+    public final static Handler serveRobotsPage = ctx -> {
+        ctx.render(Path.Template.ROBOTS);
     };
 }

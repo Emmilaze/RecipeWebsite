@@ -1,105 +1,132 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
-    <title>Cook Eat Repeat</title>
-    <link rel="shortcut icon" href="../../img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../vendor/fontawesome-free-5.11.2-web/css/all.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <link href="../../css/style.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top padding">
-    <div class="container-fluid margin nav">
-        <div class=" padding logo">
-            <a href="/index">
-                <img class="first" src="../../img/logo.png" alt="">
-                <img class="second" src="../../img/favicon.png" alt="">
-            </a>
+#parse("/velocity/header.vm")
+#@mainLayout()
+<link rel="stylesheet" href="../../css/profile.css">
+<link rel="stylesheet" href="../../css/logreg.css">
+<div class="contentProfile">
+    #if($currentUser.getPrivilege() == 4)
+        <a class="advanced" id="expandDownloads">Downloads</a>
+        <div class="advance" id="down">
+            <div class="leftProfile">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Recipe</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($download in $downloads)
+                        <tr name="user-id">
+                            <td class="id">$download.getAuthorName()</td>
+                            <td><a href='/recipes/$download.getRecipeId()'>$download.getRecipeName()</td>
+                            <td>$download.getDownloaded()</td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-          #if ($currentUser)
-                   #if ($currentUser.getPrivilege() == 2)
-          <li class="nav-item"><a  class="nav-link" href="/profile_page">Profiles</a></li>
-                  #end
-                                      #if ($currentUser.getPrivilege() != -1)
-                              <li class="nav-item"><a  class="nav-link" href="/create_recipe">Add&nbsp;recipe</a></li>
-                              #end
-              <form action="/logout"> <li class="nav-item"><a  class="nav-link" class="more" href="/logout"><button class="like-link">Log&nbsp;Out</button></a></li></form>
-          #else
-          <li class="nav-item"><a class="nav-link" href="/login">Log&nbsp;In</a></li>
-          #end
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-<div class="container-fluid menu padding">
-    <div class=" margin row for-menu">
-        <div class="col-xs-12 col-sm-12 col-md-12" style="  min-height: 655px;">
-            <div class=" margin " id="loop">
-            <p><br/></p>
-            <div class="card profile">
-              <h1>Data Table</h1>
-              <table class="table table-striped table-bordered table-hover" id="mydata">
-                <thead>
-                  <tr>
+        <a class="advanced" id="expandRecipes">Recipes count ($recipesAmount)</a>
+        <div class="advance" id="rec">
+            <div class="leftProfile">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($st in $stat.entrySet())
+                        <tr name="user-id">
+                            <td class="id">$st.getKey()</td>
+                            <td>$st.getValue()</td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a class="advanced" id="expandCategories">Categories</a>
+        <div class="advance" id="cat">
+            <div class="leftProfile">
+                <form action="/addCategory">
+                    <input type="text" name="newCategory" placeholder="Category" required/>
+                    <button class="searchBtn">Add Category</button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Recipes amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($cat in $categoryStat.entrySet())
+                        <tr name="user-id">
+                            <td>$cat.getKey()</td>
+                            <td>$cat.getValue()</td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a class="advanced" id="expandUsers">Users Table ($usersAmount)</a>
+        <div class="advance" id="usersTable">
+            <div class="leftProfile">
+                <table class="table table-striped table-bordered table-hover" id="users">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Blocking</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Blocking</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                   <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Blocking</th>
-                </tfoot>
-                <tbody>
-                    #foreach($user in $users)
-                    <form action="/block/$user.getId()">
-                    <tr name="user-id"><td class="id" >$user.getId()</td><td>$user.getUsername()</td><td>$user.getEmail()</td><td><button class="like-link" href="/block/$user.getId()" onclick="Block(this)">Block</button></td></tr>
-                    </form>
-                    #end
-                </tbody>
-              </table>
+                    </tfoot>
+                    <tbody>
+                        #foreach($user in $users)
+                        <form action="/block/$user.getId()">
+                            <tr name="user-id">
+                                <td class="id">$user.getId()</td>
+                                <td>$user.getUsername()</td>
+                                <td>$user.getEmail()</td>
+                                <td>
+                                    <button class="button" href="/block/$user.getId()" onclick="Block(this)">Block
+                                    </button>
+                                </td>
+                            </tr>
+                        </form>
+                        #end
+                    </tbody>
+                </table>
             </div>
-            </div>
-
-            <div class="row margin padding">
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-<footer class="col-xs-12 col-sm-12 col-md-12 ">
-  <div class="row">
-      <div class=" site_name col-xs-4 col-sm-4 col-md-4 padding margin">
-        <span>All rights are reserved &copy; <?=date('Y') ?></span>
-      </div>
-</footer>
+    </div>
+    <div class="topPartItem logReg">
+    #end
+    <form class="login-form topPartItem logReg" action="/change_password" id="changingPass">
+        <h1>Change password</h1>
+        <ul class="ui-form">
+            <li class="form-group imp">
+                <label for="password1">New Password</label>
+                <input type="password" name="oldPassword" id="oldPassword" class="wide" required="">
+            </li>
+            <li class="form-group imp">
+                <label for="password1">Confirm New Password</label>
+                <input type="password" name="newPassword" id="newPassword" class="wide" required="">
+            </li>
+        </ul>
+        <button class="searchBtn" value="Change">Change</button>
+    </form>
 </div>
+#end
+<script src="../../js/profile.js"></script>
 
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../vendor/bootstrap/js/jquery.dataTables.min.js"></script>
-<script src="../../vendor/bootstrap/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../js/scripts.js"></script>
-</body>
-</html>

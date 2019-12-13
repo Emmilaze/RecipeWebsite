@@ -2,91 +2,189 @@ package app.db;
 
 import app.user.User;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static app.db.DataBaseController.*;
-
-
+/**
+ * Class controller of user table in Data Base.
+ */
 public class TableUserController {
 
+    /**
+     * Method takes parameters and add new user to the table.
+     *
+     * @param email    - user's email.
+     * @param username - user's username.
+     * @param salt     - unique salt.
+     * @param password - user's hashed password.
+     */
     public static void insertUser(String email, String username, String salt, String password) {
-        if(c == null)
-            connect();
-        try {
-            stmt = c.createStatement();
-            String sql = "INSERT INTO users VALUES (" + DataBaseController.getNextId("users") + ", \'" +
-                    email + "\', \'" + username + "\', \'" + salt + "\', \'" + password + "\', " + 1 + ");";
-            stmt.executeUpdate(sql);
-            //c.commit();
-
-//            c.close();
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO users " +
+                     "VALUES (?, ?, ?, ?, ?, 0);")) {
+            preparedStatement.setInt(1, DataBaseController.getNextId("users"));
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, username);
+            preparedStatement.setString(4, salt);
+            preparedStatement.setString(5, password);
+            preparedStatement.executeUpdate();
+            System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        System.out.println("User created successfully");
     }
 
-    public static void updateUser(String field, String newValue, int id) {
-        try {
-            stmt = c.createStatement();
-            String sql = "UPDATE users SET " + field + " = \'" + newValue + "\' WHERE id = " + id;
-            stmt.executeUpdate(sql);
-            //c.commit();
-
-//            c.close();
+    /**
+     * Method takes parameters and change record in the table.
+     *
+     * @param newValue - takes new value to change.
+     * @param id       - user's unique id.
+     */
+    public static void updateUser(int newValue, int id) {
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement preparedStatement = con.prepareStatement("UPDATE users SET privilege = ? WHERE id = ?;")) {
+            preparedStatement.setInt(1, newValue);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        System.out.println("User updated successfully");
     }
 
+    /**
+     * Method takes parameters and update user's password in the table.
+     *
+     * @param salt     - unique salt.
+     * @param password - user's hashed password.
+     * @param id       - user's id.
+     */
     public static void updatePassword(String salt, String password, int id) {
-        try {
-            stmt = c.createStatement();
-            String sql = "UPDATE users SET salt = \'" + salt + "\', password = \'" + password + "\' " +
-                    "WHERE id = " + id;
-            stmt.executeUpdate(sql);
-
-//            stmt.close();
-            //c.commit();
-//            c.close();
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement preparedStatement = con.prepareStatement("UPDATE users SET salt = ?, password = ? " +
+                             "WHERE id = ?;")) {
+            preparedStatement.setString(1, salt);
+            preparedStatement.setString(2, password);
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        System.out.println("User updated successfully");
     }
 
+    /**
+     * Method return need user.
+     *
+     * @return object type User.
+     */
+    public static User getUser(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?;";
+        User user = null;
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    user = new User(rs.getInt("id"), rs.getString("email"),
+                            rs.getString("user_name"), rs.getString("salt"),
+                            rs.getString("password"), rs.getInt("privilege"));
+                }
+                return user;
+            } catch (SQLException e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Method return list with all users.
+     *
+     * @return list with all users.
+     */
     public static List<User> getUsers() {
-        if(c == null)
-            connect();
+        String sql = "SELECT * FROM users;";
         List<User> users = new ArrayList<User>();
-        try {
-            ResultSet rs = c.createStatement().executeQuery("SELECT * FROM users");
-            while (rs.next()) {
-                users.add(new User(rs.getInt("id"), rs.getString("email"),
-                        rs.getString("user_name"), rs.getString("salt"),
-                        rs.getString("password"), rs.getInt("privilege")));
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    users.add(new User(rs.getInt("id"), rs.getString("email"),
+                            rs.getString("user_name"), rs.getString("salt"),
+                            rs.getString("password"), rs.getInt("privilege")));
+                }
+                return users;
+            } catch (SQLException e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                return null;
             }
-            return users;
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return users;
+            e.printStackTrace();
+            return null;
         }
     }
 
+    /**
+     * Method return user's username by id.
+     *
+     * @param id - user's unique id.
+     * @return user's username.
+     */
     public static String getUsername(int id) {
-        try {
-            ResultSet rs = c.createStatement().executeQuery("SELECT user_name FROM users WHERE id = " + id + ";");
-            while (rs.next()) {
-                return rs.getString("user_name");
+        String sql = "SELECT user_name FROM users WHERE id = ?;";
+        String username = "";
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    username = rs.getString("user_name");
+                }
+                return username;
+            } catch (SQLException e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                return "";
             }
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return "";
+            e.printStackTrace();
+            return null;
         }
-        return "";
+    }
+
+    /**
+     * Method return the amount of users.
+     *
+     * @return the amount of users.
+     */
+    public static int getAmountOfUsers() {
+        int amount = 0;
+        String sql = "SELECT count(*)-1 FROM users;";
+        try (Connection con = DriverManager.getConnection(DataBaseController.host, DataBaseController.user,
+                DataBaseController.password);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    amount = rs.getInt("?column?");
+                }
+                return amount;
+            } catch (SQLException e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                return amount;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return amount;
+        }
     }
 }

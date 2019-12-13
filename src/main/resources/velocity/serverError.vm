@@ -1,0 +1,12 @@
+#parse("/velocity/header.vm")
+#@mainLayout()
+<div class="container-fluid menu padding">
+<div class="topPartItem logReg">
+    <div class="topWrap">
+        <div class=" topPartItem " style="margin: 10% auto">
+             <h1 style="margin:auto">The error is not with you, but with us on the server. We apologize.</h1>
+        </div>
+    </div>
+</div>
+</div>
+#end
