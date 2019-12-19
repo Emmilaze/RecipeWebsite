@@ -1,4 +1,4 @@
-function print() {
+function print_rec() {
     window.print();
 }
 
@@ -915,5 +915,84 @@ inputTimeBlurEvent = function (e) {
         }
         e.target.value = newTime;
         return;
+    }
+}
+
+
+function validate(){
+    var title = document.getElementById('author');
+    var ingr = document.getElementsByClassName('ingr-add');
+    var cat =  document.getElementById('browsers');
+    let i;
+    var res;
+    if(title.value !== undefined && title.value.replace(/\s/g,'').length > 40  )
+    {
+        alert('Title of recipe is limited to 40 characters. please remove extra characters');
+        return false;
+    }
+    if( title.value !== undefined && title.value.replace(/\s/g,'').length < 1 ){
+        alert("Title  shouldn't be empty");
+        document.getElementById('author').focus();
+        return false;
+    }
+    else{
+        if(ingr !== undefined && ingr.length -1>0){
+            for( i = 1 ;i < ingr.length; i++){
+
+                if(ingr[i].value.replace(/\s/g,'').length < 1){
+                    alert('You have invalid ingredient(s)');
+                    ingr[i].focus();
+                    return false;
+                }
+                else
+                {
+                    res = 1;
+                }
+            }
+            if(cat !== undefined && cat.value != 'Choose category')
+            {
+                if(res == 1)
+                {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                alert("Choose the category");
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+}
+
+function prepared() {
+    var prepared = document.getElementById('html-output').value.replace(/<[^>]*>?/gm,'').replace(/[^A-Za-zА-Яа-я0-9]/g,'').replace(/nbsp/g,'').length
+    if (prepared && prepared > 0 )
+    {
+        if( validate()){
+            return true;
+        }
+    }
+    else
+    {
+        alert('No inserted text in the text field');
+        return false;
+    }
+}
+
+function SubmitForm() {
+    var oForm = document.getElementById('commentform');
+    if (oForm) {
+        if(prepared()){
+            oForm.submit();
+        }
+    }
+    else {
+        alert("DEBUG - could not find element " + formId);
     }
 }

@@ -1,11 +1,8 @@
 package app.util;
 
 import java.io.File;
-import org.eclipse.jetty.nosql.mongodb.MongoSessionDataStoreFactory;
-import org.eclipse.jetty.server.session.DatabaseAdaptor;
 import org.eclipse.jetty.server.session.DefaultSessionCache;
 import org.eclipse.jetty.server.session.FileSessionDataStore;
-import org.eclipse.jetty.server.session.JDBCSessionDataStoreFactory;
 import org.eclipse.jetty.server.session.SessionCache;
 import org.eclipse.jetty.server.session.SessionHandler;
 

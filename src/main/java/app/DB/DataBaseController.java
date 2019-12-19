@@ -1,5 +1,7 @@
 package app.db;
 
+import io.sentry.Sentry;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -38,6 +40,7 @@ public class DataBaseController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return 0;
         }
     }
@@ -58,6 +61,7 @@ public class DataBaseController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -66,6 +70,7 @@ public class DataBaseController {
      */
     public static String[] getDates() {
         Properties property = new Properties();
+        //"./src/main/resources/WEB_INF/config.properties"
         try (FileInputStream fis = new FileInputStream("./config.properties")) {
             property.load(fis);
 
@@ -75,6 +80,7 @@ public class DataBaseController {
             return new String[]{host, login, password};
         } catch (IOException e) {
             System.err.println("File not found!");
+            Sentry.capture(e);
             return null;
         }
     }
@@ -90,6 +96,7 @@ public class DataBaseController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 }

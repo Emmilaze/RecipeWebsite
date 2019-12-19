@@ -17,12 +17,17 @@
                     </div>
                     <div class="conf">
                         <div class="leftConf">
-                            <p><span>Category</span><input list="browsers" name="category">
-                                <datalist id="browsers">
+                            <p><span>Category</span>
+                                <select id="browsers" name="category" required>
+                                    <option disabled>Choose category</option>
                                     #foreach($str in $categories)
-                                        <option value="$str"></option>
+                                        #if($recipe.getCategoryName() == $str)
+                                            <option selected value="$str">$str</option>
+                                        #else
+                                            <option value="$str">$str</option>
+                                        #end
                                     #end
-                                </datalist>
+                                </select>
                             </p>
                             <p>Publication time:<input type="text" maxlength="5" value="$recipe.getPubTime()"
                                                        class="time-input" name="time"/></p>
@@ -60,13 +65,13 @@
                 <textarea id="html-output" name="description" style="display: none;"
                           required="">$recipe.getDescription()</textarea>
             </div>
-            <footer>
-                <div class="controls">
-                    <button class="searchBtn" name="submit" type="submit" id="submit" value="Save">Save</button>
-                </div>
-            </footer>
         </div>
     </form>
+    <footer>
+        <div class="controls">
+            <button class="searchBtn" name="submit" onclick=SubmitForm() id="submit" value="Save">Save</button>
+        </div>
+    </footer>
 </div>
 #end
 <script src="../../dist/pell.js"></script>

@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="google-site-verification" content="_lQ7YLeH6GENAD8PRX2-eB3HRBuUi-Y-jvbSf09vshE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cook Eat Repeat</title>
     <meta name="description" content="Recipes for all tastes/situations/whatever else you can think about.">
@@ -71,7 +72,7 @@
                 <div style="clear:both"></div>
             </div>
             <div class="navigation" id="searchMenu" tabindex="-1">
-                <form action="/search" onsubmit="getCheckedBoxes()" name="searchForm" style="margin:0;"
+                <form action="/search/1" onsubmit="getCheckedBoxes()" name="searchForm" style="margin:0;"
                       onsubmit="return false">
                     <div class="search">
                         <input class="inputSearch" type="text" id="Search" placeholder="Search" name="title">
@@ -96,7 +97,7 @@
                         <button id="Date" name="Date" class="searchBtn"><i class="fas fa-calendar-day"></i></button>
                     </form>
                     <form action="/sort_rating/1" name="sort" style="margin: 0; display: inline-block;">
-                        <button id="Rating" name="Rating" class="searchBtn"><i class="fas fa-thumbs-up"></i></button>
+                        <button id="Rating" name="Rating" class="searchBtn" onclick="myUndefinedFunction()"><i class="fas fa-thumbs-up"></i></button>
                     </form>
                 </div>
                 <div style="clear:both"></div>
@@ -109,9 +110,9 @@
             #end
         </div>
         <div class="rightMenu"  #if($currentUser)style="margin-top: 45px;"#end>
-                $bodyContent
+            $bodyContent
         </div>
-         <div style="clear:both"></div>
+        <div style="clear:both"></div>
     </div>
     <a href="#siteName" class="goTop" id="goTop"><i class="fas fa-arrow-up"></i></a>
 
@@ -122,6 +123,7 @@
 
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../js/header.js"></script>
-
+<script src="https://browser.sentry-cdn.com/5.10.2/bundle.min.js" integrity="sha384-ssBfXiBvlVC7bdA/VX03S88B5MwXQWdnpJRbUYFPgswlOBwETwTp6F3SMUNpo9M9" crossorigin="anonymous">
+</script>
 </html>
 #end

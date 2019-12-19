@@ -1,6 +1,7 @@
 package app.db;
 
 import app.vote.Vote;
+import io.sentry.Sentry;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class TableRatingController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -52,10 +54,12 @@ public class TableRatingController {
                 return votes;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return votes;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -91,10 +95,12 @@ public class TableRatingController {
                 }
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
         return vote;

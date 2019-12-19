@@ -50,7 +50,10 @@ public class ProfilesController {
      * This method create new category in the Data Base.
      */
     public final static Handler addCategory = ctx -> {
-        categoryDao.createCategory(getQueryNewCategory(ctx));
+        if(getSessionCurrentUser(ctx).getPrivilege() == 4) {
+            categoryDao.createCategory(getQueryNewCategory(ctx));
+            ctx.redirect("/profile_page");
+        }
         ctx.redirect("/profile_page");
     };
 

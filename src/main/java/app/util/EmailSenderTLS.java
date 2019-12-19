@@ -1,5 +1,7 @@
 package app.util;
 
+import io.sentry.Sentry;
+
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
@@ -37,6 +39,7 @@ public class EmailSenderTLS {
      */
     public static String[] getDates() {
         Properties property = new Properties();
+        //"./src/main/resources/WEB_INF/config.properties"
         try (FileInputStream fis = new FileInputStream("./config.properties")) {
             property.load(fis);
 
@@ -45,6 +48,7 @@ public class EmailSenderTLS {
             return new String[]{email, password};
         } catch (IOException e) {
             System.err.println("File not found!");
+            Sentry.capture(e);
             return null;
         }
     }
@@ -64,7 +68,9 @@ public class EmailSenderTLS {
             message.setText(text);
             Transport.send(message);
         } catch (MessagingException e) {
+            Sentry.capture(e);
             throw new RuntimeException(e);
+
         }
     }
 
@@ -102,6 +108,7 @@ public class EmailSenderTLS {
             message.setText(text);
             Transport.send(message);
         } catch (MessagingException e) {
+            Sentry.capture(e);
             throw new RuntimeException(e);
         }
     }

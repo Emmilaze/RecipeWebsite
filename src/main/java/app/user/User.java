@@ -1,7 +1,5 @@
 package app.user;
 
-import java.util.List;
-
 /**
  * User class for users.
  */

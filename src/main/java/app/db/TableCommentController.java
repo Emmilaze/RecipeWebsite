@@ -1,6 +1,7 @@
 package app.db;
 
 import app.comment.Comment;
+import io.sentry.Sentry;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class TableCommentController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -57,10 +59,12 @@ public class TableCommentController {
                 return comments;
             } catch (Exception e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -87,10 +91,12 @@ public class TableCommentController {
 
             } catch (Exception e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
         return comment;

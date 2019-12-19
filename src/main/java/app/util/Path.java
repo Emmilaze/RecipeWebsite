@@ -23,7 +23,7 @@ public class Path {
         public static final String DELETE_RECIPE = "/delete_recipe/:id";
         public static final String SORT_BY_NEW = "/sort_date/:id";
         public static final String SORT_BY_POPULAR = "/sort_rating/:id";
-        public static final String SEARCH = "/search";
+        public static final String SEARCH = "/search/:id";
         public static final String ABOUT = "/about";
         public static final String USER_RECIPE = "/my_recipes";
         public static final String UNCONFIRMED = "/unconfirmed_recipes";
@@ -58,5 +58,6 @@ public class Path {
         public static final String REPORT = "/velocity/report.vm";
         public static final String ROBOTS = "/velocity/robots.vm";
         public static final String MESSAGE = "/velocity/message.vm";
+        public static final String SEARCH = "/velocity/search.vm";
     }
 }

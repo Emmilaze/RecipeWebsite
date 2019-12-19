@@ -4,6 +4,7 @@ import app.util.Cleaner;
 import app.util.Path;
 import app.util.ViewUtil;
 import io.javalin.http.Handler;
+import io.sentry.Sentry;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -38,6 +39,7 @@ public class ReportController {
                         new File("./filesReports/" + file.getFilename()));
             } catch (IOException e) {
                 System.out.println(e);
+                Sentry.capture(e);
             }
             if (file.getFilename().isEmpty()) {
                 emailSenderTLS.send("Bag report", Cleaner.removeAllTags(getReport(ctx)),

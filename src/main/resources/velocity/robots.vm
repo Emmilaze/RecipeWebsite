@@ -2,10 +2,13 @@
 User-agent: *
 Allow: /index
 Allow: /recipe
-Disallow: /app
+Allow: /img/
+Disallow: /src/
+Disallow: /config.properties
 Host: https://g3.sumdu-tss.site
 Crawl-delay: 10
 Clean-param: ref /recipes
 Clean-param: ref /index
 Clean-param: ref /search
+Sitemap: sitemap.xml
 </pre>

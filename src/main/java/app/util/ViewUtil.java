@@ -1,6 +1,6 @@
 package app.util;
 
-import app.db.TableRecipeController;
+import app.db.TableIngredientsController;
 import io.javalin.http.Context;
 import io.javalin.http.ErrorHandler;
 import io.javalin.http.Handler;
@@ -25,7 +25,7 @@ public class ViewUtil {
     public static Map<String, Object> baseModel(Context ctx) {
         Map<String, Object> model = new HashMap<>();
         model.put("currentUser", getSessionCurrentUser(ctx));
-        model.put("ingredients", TableRecipeController.getIngredients());
+        model.put("ingredients", TableIngredientsController.getIngredients());
         return model;
     }
 
@@ -56,5 +56,17 @@ public class ViewUtil {
 
     public static int getPreviousPage(int present) {
         return present - 1;
+    }
+
+    public static boolean isMore(int present) {
+        return recipeDao.getAmountOfPages() < present;
+    }
+
+    public static boolean isMoreSearch(int present, String ingredients, String name) {
+        return recipeDao.getPagesForSearch(ingredients, name) < present;
+    }
+
+    public static int getNextPageSearch(int present, String ingredients, String name) {
+        return ((present + 1 > recipeDao.getPagesForSearch(ingredients, name)) ? 0 : present + 1);
     }
 }

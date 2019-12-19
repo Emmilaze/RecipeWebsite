@@ -1,6 +1,7 @@
 package app.db;
 
 import app.downloads.Downloads;
+import io.sentry.Sentry;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class TableDownloadController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -44,10 +46,12 @@ public class TableDownloadController {
                 }
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
         return downloads;

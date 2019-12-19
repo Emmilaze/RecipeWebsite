@@ -1,0 +1,40 @@
+#parse("/velocity/header.vm")
+#@mainLayout()
+<link rel="stylesheet" href="../../css/index.css">
+    #if($noMatch)
+    <div class="topPartItem logReg">
+        <div class="topWrap">
+            <div class=" topPartItem " style="margin: 10% auto">
+                <h1 style="margin:auto">Nothing has matched your criterias</h1>
+            </div>
+        </div>
+    </div>
+    #else
+        #foreach($recipe in $recipes)
+        <div class="recipes">
+            <div class="forImg">
+                <img src="" data-src=$recipe.getImg() alt="">
+                <div class="text">
+                    <h2>$recipe.getName()</h2>
+                    <a href="/recipes/$recipe.id" class="read">Read more</a>
+                </div>
+            </div>
+        </div>
+        #end
+    <div style="clear:both"></div>
+    <div class="pagination">
+        #if($previous==0)
+            <a class="searchBtn prev" id="prev" style="">Prev</a>
+        #else
+            <a href="/search/$previous" class="searchBtn prev" id="prev" style="">Prev</a>
+        #end
+        #if($next!=0)
+            <a href="/search/$next" class="searchBtn next" id="next" style="">Next</a>
+        #else
+            <a class="searchBtn next" id="next" style="">Next</a>
+        #end
+    </div>
+    <div style="clear:both"></div>
+    #end
+<script async src="../../js/lazy.js"></script>
+#end

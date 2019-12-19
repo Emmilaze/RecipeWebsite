@@ -1,6 +1,7 @@
 package app.db;
 
 import app.category.Category;
+import io.sentry.Sentry;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class TableCategoryController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -48,10 +50,12 @@ public class TableCategoryController {
                 return category;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -74,10 +78,12 @@ public class TableCategoryController {
                 return categories;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -101,10 +107,12 @@ public class TableCategoryController {
                 return category;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -128,10 +136,12 @@ public class TableCategoryController {
                 return id;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return id;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return id;
         }
     }
@@ -154,10 +164,12 @@ public class TableCategoryController {
                 return names;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -182,10 +194,12 @@ public class TableCategoryController {
                 return map;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -208,10 +222,12 @@ public class TableCategoryController {
                 return amount;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return amount;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return amount;
         }
     }

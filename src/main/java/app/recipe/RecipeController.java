@@ -1,5 +1,6 @@
 package app.recipe;
 
+import app.util.Cleaner;
 import app.util.Path;
 import app.util.ViewUtil;
 import io.javalin.http.Handler;
@@ -7,6 +8,7 @@ import io.javalin.http.Handler;
 import java.util.Map;
 
 import static app.Main.*;
+import static app.util.FileMethods.getMemory;
 import static app.util.RequestUtil.*;
 
 /**
@@ -18,18 +20,37 @@ public class RecipeController {
      * Method render page of one recipe.
      */
     public final static Handler fetchOneRecipe = ctx -> {
-        Map<String, Object> model = ViewUtil.baseModel(ctx);
-        model.put("recipe", recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx))));
-        model.put("haveVoted", voteDao.haveVoted(getSessionCurrentUser(ctx), Integer.parseInt(getParamId(ctx))));
-        model.put("comments", commentDao.getCommentByRecipe(Integer.parseInt(getParamId(ctx))));
-        ctx.render(Path.Template.RECIPES_ONE, model);
+        if (recipeDao.isExisted(Integer.parseInt(getParamId(ctx)))) {
+            Recipe recipe = recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx)));
+            if (!recipe.isApproved()) {
+                if (getSessionCurrentUser(ctx).getPrivilege() > 2 || getSessionCurrentUser(ctx).getId() == recipe.getAuthorId()) {
+                    Map<String, Object> model = ViewUtil.baseModel(ctx);
+                    model.put("recipe", recipe);
+                    model.put("haveVoted", voteDao.haveVoted(getSessionCurrentUser(ctx), recipe.getId()));
+                    model.put("comments", commentDao.getCommentByRecipe(recipe.getId()));
+                    ctx.render(Path.Template.RECIPES_ONE, model);
+                }
+            } else {
+                Map<String, Object> model = ViewUtil.baseModel(ctx);
+                model.put("recipe", recipe);
+                model.put("haveVoted", voteDao.haveVoted(getSessionCurrentUser(ctx), recipe.getId()));
+                model.put("comments", commentDao.getCommentByRecipe(recipe.getId()));
+                ctx.render(Path.Template.RECIPES_ONE, model);
+            }
+        } else {
+            ctx.redirect("/index/1");
+        }
+
+
     };
 
     /**
      * Method-post to increase recipe rating. Call function to make change in Data Base.
      */
     public final static Handler likePost = ctx -> {
-        voteDao.addVote(getSessionCurrentUser(ctx).getId(), Integer.parseInt(getParamId(ctx)));
+        if (getSessionCurrentUser(ctx).getPrivilege() > 0) {
+            voteDao.addVote(getSessionCurrentUser(ctx).getId(), Integer.parseInt(getParamId(ctx)));
+        }
         ctx.redirect("/recipes/" + Integer.parseInt(getParamId(ctx)));
     };
 
@@ -37,7 +58,8 @@ public class RecipeController {
      * Method-post to decrease recipe rating. Call function to make change in Data Base.
      */
     public final static Handler dislikePost = ctx -> {
-        voteDao.deleteVote(getSessionCurrentUser(ctx).getId(), Integer.parseInt(getParamId(ctx)));
+        if (getSessionCurrentUser(ctx).getPrivilege() > 0)
+            voteDao.deleteVote(getSessionCurrentUser(ctx).getId(), Integer.parseInt(getParamId(ctx)));
         ctx.redirect("/recipes/" + Integer.parseInt(getParamId(ctx)));
     };
 
@@ -46,30 +68,32 @@ public class RecipeController {
      */
     public final static Handler deletePost = ctx -> {
         int id = Integer.parseInt(getParamId(ctx));
-        if (getSessionCurrentUser(ctx).getPrivilege() == 4 &&
-                recipeDao.getRecipeById(id).getAuthorId() == getSessionCurrentUser(ctx).getId()) {
+        if (getSessionCurrentUser(ctx).getPrivilege() == 4 ||
+                recipeDao.getRecipeById(id).getAuthorId() == getSessionCurrentUser(ctx).getId())
             recipeDao.deleteRecipe(id);
-            ctx.redirect("/index/1");
-        }
+
+        ctx.redirect("/index/1");
     };
 
     /**
      * Method approve the current recipe.
      */
     public static Handler approve = ctx -> {
-        if (getSessionCurrentUser(ctx).getPrivilege() > 2) {
+        if (getSessionCurrentUser(ctx).getPrivilege() > 2)
             recipeDao.approveRecipe(Integer.parseInt(getParamId(ctx)));
-            ctx.redirect("/recipes/" + Integer.parseInt(getParamId(ctx)));
-        }
+        ctx.redirect("/recipes/" + Integer.parseInt(getParamId(ctx)));
+
     };
 
     /**
      * Method create record with comment in Data Base.
      */
     public static Handler makeComment = ctx -> {
-        commentDao.createComment(getSessionCurrentUser(ctx).getId(), Integer.parseInt(getParamId(ctx)),
-                getQueryComment(ctx));
+        if (getSessionCurrentUser(ctx).getPrivilege() > 0)
+            commentDao.createComment(getSessionCurrentUser(ctx).getId(), Integer.parseInt(getParamId(ctx)),
+                    Cleaner.removeBadTags(getQueryComment(ctx)));
         ctx.redirect("/recipes/" + Integer.parseInt(getParamId(ctx)));
+
     };
 
     /**

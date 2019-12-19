@@ -1,6 +1,7 @@
 package app.recipe;
 
 import app.db.TableUserController;
+import io.sentry.Sentry;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -132,6 +133,7 @@ public class Recipe {
                 url = "data:image/png;base64," + encoder.encodeToString(imageBytes);
             } catch (IOException e) {
                 e.printStackTrace();
+                Sentry.capture(e);
             }
             return url;
         }
@@ -183,8 +185,13 @@ public class Recipe {
      * @return recipe time and date.
      */
     public String getPublicationTime() {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        return format.format(publicationTime);
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            return format.format(publicationTime);
+        } catch (Exception e) {
+            Sentry.capture(e);
+            return null;
+        }
     }
 
     /**
@@ -221,10 +228,15 @@ public class Recipe {
      */
     public ArrayList<String> getArrayOfIngredients() {
         ArrayList<String> array = new ArrayList<>();
-        for (String oneIngredient : this.ingredients.split(", ")) {
-            array.add(oneIngredient);
+        try {
+            for (String oneIngredient : this.ingredients.split(", ")) {
+                array.add(oneIngredient);
+            }
+            return array;
+        } catch (Exception e) {
+            Sentry.capture(e);
+            return array;
         }
-        return array;
     }
 
     /**
@@ -233,8 +245,13 @@ public class Recipe {
      * @return the date in need format.
      */
     public String getPubDate() {
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        return format.format(publicationTime);
+        try {
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            return format.format(publicationTime);
+        } catch (Exception e) {
+            Sentry.capture(e);
+            return null;
+        }
     }
 
     /**
@@ -252,7 +269,12 @@ public class Recipe {
      * @return the time in need format.
      */
     public String getPubTime() {
-        DateFormat format = new SimpleDateFormat("HH:mm");
-        return format.format(publicationTime);
+        try {
+            DateFormat format = new SimpleDateFormat("HH:mm");
+            return format.format(publicationTime);
+        } catch (Exception e) {
+            Sentry.capture(e);
+            return null;
+        }
     }
 }

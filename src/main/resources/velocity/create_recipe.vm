@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="../../css/recipe.css">
     <link rel="stylesheet" href="../../dist/pell.css">
     <link rel="stylesheet" href="../../css/datapicker.css">
-    <form method="post" id="commentform" enctype="multipart/form-data">
+    <form id="commentform" method="post" enctype="multipart/form-data">
         <h2 style="padding: 0 5%;"><input type="text" name="name" id="author" placeholder="Name" class="ingr-add name"
                                           name="recipe_name" required/></h2>
         <div class="topWrap">
@@ -17,12 +17,17 @@
                     </div>
                     <div class="conf">
                         <div class="leftConf">
-                            <p><span>Category :</span><input list="browsers" name="category">
-                                <datalist id="browsers">
+                            <p><span>Category :</span>
+                                <select id="browsers" name="category" required>
+                                    <option selected disabled>Choose category</option>
                                     #foreach($str in $categories)
-                                    <option value="$str">
+                                        #if($recipe.getCategoryName() == $str)
+                                            <option value="$str">$str</option>
+                                        #else
+                                            <option value="$str">$str</option>
+                                        #end
                                     #end
-                                </datalist>
+                                </select>
                             </p>
                             <p>Publication time:<input type="text" maxlength="5" value="00:00" class="time-input"
                                                        name="time"/></p>
@@ -48,16 +53,14 @@
             <hr>
             <div class="topPartItem">
                 <h2 style="text-align: center;">Recipe</h2>
-                <div id="editor" class=" divtext pell" required=""></div>
+                <div id="editor" class=" divtext pell"></div>
                 <textarea id="html-output" name="description" style="display: none;" required=""></textarea>
             </div>
-            <footer>
-                <div class="controls">
-                    <button class="searchBtn" name="submit" type="submit" id="submit" value="Save">Save</button>
-                </div>
-            </footer>
         </div>
     </form>
+    <footer>
+        <button class="searchBtn" name="Comment" onclick=SubmitForm('commentform') id="submit" value="Save">Save</button>
+    </footer>
 </div>
 #end
 <script src="../../dist/pell.js"></script>

@@ -2,6 +2,7 @@ package tests;
 
 import app.db.DataBaseController;
 import app.db.TableRecipeController;
+import app.db.TableRecipesController;
 import app.recipe.Recipe;
 import app.recipe.RecipeDao;
 import org.junit.jupiter.api.AfterEach;

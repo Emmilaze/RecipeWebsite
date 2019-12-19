@@ -10,6 +10,7 @@ import app.util.Path;
 import app.util.ViewUtil;
 
 import static app.Main.userDao;
+import static app.util.FileMethods.getMemory;
 import static app.util.RequestUtil.*;
 
 /**
@@ -44,7 +45,12 @@ public class LoginController {
         } else {
             User user = userDao.getUserByUsername(getQueryUsername(ctx));
             if (user.getPrivilege() == 0) {
-                ctx.redirect("/message");
+                model.put("message", "To be able to use all functionality of the site please confim your registration by\n" +
+                        "                following the link from regestered Email. \n" +
+                        "                \n" +
+                        "                \n" +
+                        "                *It may be in spam folder.*");
+                ctx.render(Path.Template.MESSAGE, model);
             } else {
                 ctx.sessionAttribute("currentUser", user);
                 model.put("currentUser", getSessionCurrentUser(ctx));

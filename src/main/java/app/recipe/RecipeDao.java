@@ -1,8 +1,7 @@
 package app.recipe;
 
-import app.db.DataBaseController;
-import app.db.TableDownloadController;
-import app.db.TableRecipeController;
+import app.db.*;
+import io.sentry.Sentry;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,12 +23,17 @@ public class RecipeDao {
     public List<Recipe> seachedList = null;
 
     /**
+     * Flag. Need sorting or not.
+     */
+    public boolean sort = false;
+
+    /**
      * Method to fill the list with posted recipes.
      *
      * @return list of recipes.
      */
     public Iterable<Recipe> getAllRecipes(int pageNumber) {
-        return recipes = TableRecipeController.getRecipes(pageNumber);
+        return recipes = TableRecipesController.getRecipes(pageNumber);
     }
 
     /**
@@ -49,7 +53,7 @@ public class RecipeDao {
      */
     public List<Recipe> getPopular(int page) {
         if (seachedList == null) {
-            return recipes = TableRecipeController.getPopularRecipes(page);
+            return recipes = TableRecipesController.getPopularRecipes(page);
         } else {
             seachedList.sort(Comparator.comparing(Recipe::getRating).reversed());
             return seachedList;
@@ -63,7 +67,7 @@ public class RecipeDao {
      */
     public List<Recipe> getNewest(int page) {
         if (seachedList == null) {
-            return recipes = TableRecipeController.getRecipes(page);
+            return recipes = TableRecipesController.getRecipes(page);
         } else {
             seachedList.sort(Comparator.comparing(Recipe::getPublicationTime).reversed());
             return seachedList;
@@ -102,12 +106,12 @@ public class RecipeDao {
         DateFormat dataBaseFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
         String str;
         try {
-            Date parsedDate  = sourceFormat.parse(date + " " + time);
+            Date parsedDate = sourceFormat.parse(date + " " + time);
             str = dataBaseFormat.format(parsedDate);
             TableRecipeController.updateRecipe(name, img, description, ingredients, id, category, str);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
+            Sentry.capture(e);
         }
     }
 
@@ -126,7 +130,7 @@ public class RecipeDao {
      * @return the list of recipes.
      */
     public List<Recipe> getRecipeByUser(int id) {
-        return TableRecipeController.getUserRecipes(id);
+        return TableRecipesController.getUserRecipes(id);
     }
 
     /**
@@ -135,7 +139,7 @@ public class RecipeDao {
      * @return the list of recipes.
      */
     public Iterable<Recipe> getUnconfirmedRecipes() {
-        return TableRecipeController.getUnconfirmedRecipes();
+        return TableRecipesController.getUnconfirmedRecipes();
     }
 
     /**
@@ -149,7 +153,7 @@ public class RecipeDao {
      * Method return liked recipes.
      */
     public List<Recipe> likedRecipes(int userId) {
-        return TableRecipeController.getLikedRecipes(userId);
+        return TableRecipesController.getLikedRecipes(userId);
     }
 
     /**
@@ -158,7 +162,7 @@ public class RecipeDao {
      * @return amount of recipes.
      */
     public int getAmount() {
-        return TableRecipeController.getAmountOfRecipes();
+        return TableRecipesUtilController.getAmountOfRecipes();
     }
 
     /**
@@ -167,7 +171,7 @@ public class RecipeDao {
      * @return hashmap with the statistics.
      */
     public HashMap<String, Integer> getStatistics() {
-        return TableRecipeController.getStatistics();
+        return TableRecipesUtilController.getStatistics();
     }
 
     /**
@@ -176,6 +180,38 @@ public class RecipeDao {
      * @return amount of pages.
      */
     public int getAmountOfPages() {
-        return TableRecipeController.getAmountOfPages();
+        int allRecipes = TableRecipesUtilController.getAmountOfPages();
+        if(allRecipes < 9) return 1;
+        if (allRecipes % 9 == 0)
+            return allRecipes / 9;
+        else
+            return allRecipes / 9 + 1;
+    }
+
+    /**
+     * Method return the amount of recipes.
+     *
+     * @return hashmap with the statistics.
+     */
+    public boolean isExisted(int id) {
+        return TableRecipeController.isExisted(id);
+    }
+
+    public List<Recipe> search(String ingr, String name, int page){
+        return SearchController.searchRecipe(ingr, name, page);
+    }
+
+    /**
+     * Method return the amount of pages.
+     *
+     * @return amount of pages.
+     */
+    public int getPagesForSearch(String ingredients, String name) {
+        int allRecipes = SearchController.getAmountOfSearch(ingredients, name);
+        if(allRecipes < 9) return 1;
+        if (allRecipes % 9 == 0)
+            return allRecipes / 9;
+        else
+            return allRecipes / 9 + 1;
     }
 }

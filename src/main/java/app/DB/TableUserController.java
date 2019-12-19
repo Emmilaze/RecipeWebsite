@@ -1,6 +1,7 @@
 package app.db;
 
 import app.user.User;
+import io.sentry.Sentry;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class TableUserController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -52,6 +54,7 @@ public class TableUserController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -74,6 +77,7 @@ public class TableUserController {
             System.out.println("Records created/updated successfully");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Sentry.capture(e);
         }
     }
 
@@ -98,10 +102,12 @@ public class TableUserController {
                 return user;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -126,10 +132,12 @@ public class TableUserController {
                 return users;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -154,10 +162,12 @@ public class TableUserController {
                 return username;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return "";
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return null;
         }
     }
@@ -180,10 +190,12 @@ public class TableUserController {
                 return amount;
             } catch (SQLException e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Sentry.capture(e);
                 return amount;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Sentry.capture(e);
             return amount;
         }
     }

@@ -1,13 +1,10 @@
 package app.vote;
 
 import app.db.TableRatingController;
-import app.db.TableRecipeController;
 import app.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static app.Main.recipeDao;
 
 /**
  * Vote class for votes.

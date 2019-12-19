@@ -1,5 +1,6 @@
 package app.util;
 
+import io.sentry.Sentry;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -16,6 +17,7 @@ public class Cleaner {
             return Jsoup.clean(string, Whitelist.none());
         }catch (Exception e){
             System.out.println(e);
+            Sentry.capture(e);
             return "BadTag";
         }
     }
@@ -28,6 +30,7 @@ public class Cleaner {
             return Jsoup.clean(string, Whitelist.basic());
         }catch (Exception e){
             System.out.println(e);
+            Sentry.capture(e);
             return "BadTag";
         }
     }

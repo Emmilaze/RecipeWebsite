@@ -2,6 +2,7 @@ package app.util;
 
 import app.user.User;
 import io.javalin.http.Context;
+import io.sentry.Sentry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,6 +116,7 @@ public class RequestUtil {
             list.addAll(Arrays.asList(ctx.req.getParameterValues("ingr")));
         }catch(NullPointerException e){
             System.out.println(e);
+            Sentry.capture(e);
         }
         String str = "";
         for(int i = 0; i < list.size(); i++){

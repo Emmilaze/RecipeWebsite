@@ -12,6 +12,10 @@ body {
     margin: 0;
 }
 
+#myFilter {
+    color: black;
+}
+
 .wrp {
     position: relative;
     max-width: 95%;

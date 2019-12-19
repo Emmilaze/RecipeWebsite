@@ -387,3 +387,26 @@ img {
     text-align: center;
     margin: 25px auto;
 }
+
+
+.topContent * {
+    padding-left: 10px;
+}
+
+.botContent {
+    margin-bottom:5px;
+    width: 89%;
+    border: 1px solid black;
+    padding: 10px;
+    margin-left: 2%;
+}
+
+
+.topContent {
+    background: #fff;
+    padding-left: 10px;
+    width: 95%;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 15px;
+}

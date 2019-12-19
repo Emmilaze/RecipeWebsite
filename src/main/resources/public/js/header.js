@@ -99,3 +99,20 @@ function getCheckedBoxes() {
     console.log(span.value);
     console.log(div.value);
 }
+
+
+function filterFunction() {
+    var input, filter, ul, li, span, i, check;
+    input = document.getElementById("myFilter");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("filter");
+    span = div.getElementsByTagName("label");
+    for (i = 0; i < span.length; i++) {
+        txtValue = span[i].textContent || span[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            span[i].style.display = "";
+        } else {
+            span[i].style.display = "none";
+        }
+    }
+}

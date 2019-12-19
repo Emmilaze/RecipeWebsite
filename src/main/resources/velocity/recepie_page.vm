@@ -16,21 +16,25 @@
                         <p><span>Category</span><span id="category">$recipe.getCategoryName()</span></p>
                         <p>Publication date: <span class="time-input"> $recipe.getPublicationTime()</span></p>
                         <p>Author: <span class="time-input">$recipe.getAuthorUsername()</span></p>
-                        #if($currentUser.getId() != $recipe.getAuthorId() && $currentUser.getPrivilege()>0 && $haveVoted == false && $currentUser.getPrivilege()<3)
-                            <form action="/like/$recipe.getId()">
-                                <p><span>Likes:$recipe.getRating()<button class="searchBtn" name="like" id="like"
-                                                                          value="like"><i class="far fa-thumbs-up"></i></button></span>
-                                </p>
-                            </form>
-                        #elseif($currentUser.getId() != $recipe.getAuthorId() && $currentUser.getPrivilege()>0 && $haveVoted == true && $currentUser.getPrivilege()<3)
-                            <form action="/dislike/$recipe.getId()">
-                                <p><span>Likes:$recipe.getRating()<button class="searchBtn" name="like" id="like"
-                                                                          value="like"><i
-                                        class="far fa-thumbs-down"></i></button></span></p>
-                            </form>
+                        #if($currentUser)
+                            #if($currentUser.getId() != $recipe.getAuthorId() && $currentUser.getPrivilege()>0 && $haveVoted == false && $currentUser.getPrivilege()<3)
+                                <form action="/like/$recipe.getId()">
+                                    <p><span>Likes: $recipe.getRating()<button class="searchBtn" name="like" id="like"
+                                                                              value="like"><i
+                                            class="far fa-thumbs-up"></i></button></span>
+                                    </p>
+                                </form>
+                            #elseif($currentUser.getId() != $recipe.getAuthorId() && $currentUser.getPrivilege()>0 && $haveVoted == true && $currentUser.getPrivilege()<3)
+                                <form action="/dislike/$recipe.getId()">
+                                    <p><span>Likes: $recipe.getRating()<button class="searchBtn" name="like" id="like"
+                                                                              value="like"><i
+                                            class="far fa-thumbs-down"></i></button></span></p>
+                                </form>
+                            #end
                         #else
-                            <p><span>Likes:$recipe.getRating()</span></p>
+                            <p><span>Likes: $recipe.getRating()</span></p>
                         #end
+
                         <!-- Sharingbutton Facebook -->
                         <a class="resp-sharing-button__link"
                            href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Fg3.sumdu-tss.site%2Frecipes%2F$recipe.id"
@@ -104,13 +108,12 @@
                 <h4>Comments</h4>
                 #if($currentUser)
                     <div class="comments">
-                        <form method="post">
+                        <form id="commentform" method="post" >
                             <div id="editor" class="pell"></div>
-                            <textarea id="html-output" style="display: none;" name="comment"></textarea>
-                            <button class="searchBtn" type="submit" onclick="addComment()" name="Comment" id="Comment"
-                                    value="Comment">Add Comment
-                            </button>
+                            <textarea id="html-output" style="display: none;" name="comment" required></textarea>
                         </form>
+                        <button class="searchBtn" name="Comment" onclick="SubmitForm()" id="Comment" value="Comment">Add Comment
+                        </button>
                     </div>
                 #end
                 <ul>
@@ -130,7 +133,7 @@
 <footer>
     <div class="controls">
         <form action="/print/$recipe.getId()" style="margin:0;" id="print">
-            <button class="searchBtn" id="DP" value="Download" onclick="print()">Download</button>
+            <button class="searchBtn" id="DP" value="Download" onclick="print_rec()">Download</button>
         </form>
         #if($currentUser.getId() == $recipe.getAuthorId() || $currentUser.getPrivilege() == 4)
             <a href="/recipes/$recipe.getId()/edit">
@@ -154,4 +157,5 @@
     <script src="../../dist/pell_init.js"></script>
     #end
 <script src="../../js/lazy.js"></script>
+<script src="../../js/recipe.js"></script>
 #end

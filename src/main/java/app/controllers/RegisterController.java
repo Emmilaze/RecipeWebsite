@@ -8,8 +8,8 @@ import io.javalin.http.Handler;
 
 import java.util.Map;
 
-import static app.Main.emailSenderTLS;
-import static app.Main.userDao;
+import static app.Main.*;
+import static app.util.FileMethods.getMemory;
 import static app.util.RequestUtil.*;
 
 /**
@@ -40,10 +40,17 @@ public class RegisterController {
             emailSenderTLS.send("Account activation", "To activate an account and use all the features of the site, please click on the link -> http://g3.sumdu-tss.site/activate/"
                             + user.getSalt() + "CER" + user.getId(),
                     Cleaner.removeAllTags(getQueryEmail(ctx)));
-            ctx.redirect("/message");
+            model.put("message", "To be able to use all functionality of the site please confim your registration by\n" +
+                    "                following the link from regestered Email. \n" +
+                    "                \n" +
+                    "                \n" +
+                    "                *It may be in spam folder.*");
+            ctx.render(Path.Template.MESSAGE, model);
         } else {
             model.put("authenticationFailed", true);
             ctx.render(Path.Template.REGISTER, model);
         }
+
+
     };
 }

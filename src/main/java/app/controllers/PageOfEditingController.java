@@ -5,6 +5,7 @@ import app.util.Cleaner;
 import app.util.Path;
 import app.util.ViewUtil;
 import io.javalin.http.Handler;
+import io.sentry.Sentry;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -46,39 +47,44 @@ public class PageOfEditingController {
      * Redirecting to the updated recipe page.
      */
     public final static Handler handleEditPost = ctx -> {
-        ctx.uploadedFiles("files").forEach(file -> {
-            try {
-                FileUtils.copyInputStreamToFile(file.getContent(),
-                        new File("./image/" + file.getFilename()));
-
-            } catch (IOException e) {
-            }
-            String str = "";
-            List<String> list = getQueryIngredients(ctx);
-            for (int i = 0; i < list.size(); i++) {
-                if (i == 0) {
-                    str = Cleaner.removeAllTags(str);
-                    str += list.get(i);
-                } else {
-                    str = Cleaner.removeAllTags(str);
-                    str += ", " + list.get(i);
+        Recipe recipe = recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx)));
+        if (getSessionCurrentUser(ctx).getPrivilege() == 4 || getSessionCurrentUser(ctx).getId() == recipe.getAuthorId()) {
+            ctx.uploadedFiles("files").forEach(file -> {
+                try {
+                    FileUtils.copyInputStreamToFile(file.getContent(),
+                            new File("./image/" + file.getFilename()));
+                } catch (IOException e) {
+                    Sentry.capture(e);
                 }
-            }
-            if (file.getFilename().isEmpty()) {
-                recipeDao.updateRecipe(Cleaner.removeAllTags(getQueryName(ctx)),
-                        recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx))).getImage(),
-                        Cleaner.removeBadTags(getQueryDescription(ctx)), str, Integer.parseInt(getParamId(ctx)),
-                        categoryDao.getCategoryByName(getQueryCategory(ctx)), getQueryDate(ctx),
-                        getQueryTime(ctx));
-            } else {
-                String picName = renameFile(file.getFilename());
-                recipeDao.updateRecipe(Cleaner.removeAllTags(getQueryName(ctx)), picName,
-                        Cleaner.removeBadTags(getQueryDescription(ctx)), str,
-                        Integer.parseInt(getParamId(ctx)),
-                        categoryDao.getCategoryByName(getQueryCategory(ctx)), getQueryDate(ctx),
-                        getQueryTime(ctx));
-            }
-        });
-        ctx.redirect("/index/1");
+                String str = "";
+                List<String> list = getQueryIngredients(ctx);
+                for (int i = 0; i < list.size(); i++) {
+                    if (i == 0) {
+                        str = Cleaner.removeAllTags(str);
+                        str += list.get(i);
+                    } else {
+                        str = Cleaner.removeAllTags(str);
+                        str += ", " + list.get(i);
+                    }
+                }
+                if (file.getFilename().isEmpty()) {
+                    recipeDao.updateRecipe(Cleaner.removeAllTags(getQueryName(ctx)),
+                            recipe.getImage(),
+                            Cleaner.removeBadTags(getQueryDescription(ctx)), str, Integer.parseInt(getParamId(ctx)),
+                            categoryDao.getCategoryByName(getQueryCategory(ctx)), getQueryDate(ctx),
+                            getQueryTime(ctx));
+                } else {
+                    String picName = renameFile(file.getFilename());
+                    recipeDao.updateRecipe(Cleaner.removeAllTags(getQueryName(ctx)), picName,
+                            Cleaner.removeBadTags(getQueryDescription(ctx)), str,
+                            Integer.parseInt(getParamId(ctx)),
+                            categoryDao.getCategoryByName(getQueryCategory(ctx)), getQueryDate(ctx),
+                            getQueryTime(ctx));
+                }
+            });
+            ctx.redirect("/recipes/" + recipe.getId());
+        } else {
+            ctx.redirect("/recipes/" + recipe.getId());
+        }
     };
 }

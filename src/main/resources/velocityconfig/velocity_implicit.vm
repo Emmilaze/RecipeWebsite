@@ -26,3 +26,4 @@
 #* @vtlvariable name="next" type="java.lang.Integer" *#
 #* @vtlvariable name="previous" type="java.lang.Integer" *#
 #* @vtlvariable name="present" type="java.lang.Integer" *#
+#* @vtlvariable name="message" type="java.lang.String" *#

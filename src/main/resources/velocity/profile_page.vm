@@ -115,12 +115,12 @@
     <form class="login-form topPartItem logReg" action="/change_password" id="changingPass">
         <h1>Change password</h1>
         <ul class="ui-form">
+##            <li class="form-group imp">
+##                <label for="password1">New Password</label>
+##                <input type="password" name="oldPassword" id="oldPassword" class="wide" required="">
+##            </li>
             <li class="form-group imp">
                 <label for="password1">New Password</label>
-                <input type="password" name="oldPassword" id="oldPassword" class="wide" required="">
-            </li>
-            <li class="form-group imp">
-                <label for="password1">Confirm New Password</label>
                 <input type="password" name="newPassword" id="newPassword" class="wide" required="">
             </li>
         </ul>

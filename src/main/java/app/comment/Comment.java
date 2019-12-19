@@ -2,6 +2,8 @@ package app.comment;
 
 import app.db.TableUserController;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Category class for categories.
  */
