@@ -189,9 +189,9 @@ public class RecipeDao {
     }
 
     /**
-     * Method return the amount of recipes.
+     * Method return exist the recipe or not.
      *
-     * @return hashmap with the statistics.
+     * @return true or false.
      */
     public boolean isExisted(int id) {
         return TableRecipeController.isExisted(id);
@@ -213,5 +213,33 @@ public class RecipeDao {
             return allRecipes / 9;
         else
             return allRecipes / 9 + 1;
+    }
+
+    /**
+     * Method return list with all last versions of recipe.
+     *
+     * @return list with all last versions of recipe.
+     */
+    public HashMap<Integer, Recipe> getOldVersions(int id) {
+        return TableOldRecipesController.getOldVersionsOfRecipes(id);
+    }
+
+    /**
+     * Method return exist the version of recipe or not.
+     *
+     * @return true or false.
+     */
+    public boolean isExistVersion(int id) {
+        return TableOldRecipesController.isExisted(id);
+    }
+
+    /**
+     * Method return recipe by id.
+     *
+     * @param id - recipe id.
+     * @return recipe.
+     */
+    public Recipe getRecipeByVersion(int id, int versionId) {
+        return TableOldRecipesController.getRecipe(id, versionId);
     }
 }

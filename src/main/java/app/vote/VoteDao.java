@@ -19,8 +19,9 @@ public class VoteDao {
      * @return the result of cheking user's vote.
      */
     public boolean haveVoted(User user, int recipeId){
-        if(user == null)
+        if(user == null) {
             return false;
+        }
         List<Vote> votes = new ArrayList<>(getVotes(user));
         for(int i = 0; i < votes.size(); i++){
             if(votes.get(i).getRecipeId() == recipeId) {

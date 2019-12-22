@@ -20,14 +20,14 @@
                             #if($currentUser.getId() != $recipe.getAuthorId() && $currentUser.getPrivilege()>0 && $haveVoted == false && $currentUser.getPrivilege()<3)
                                 <form action="/like/$recipe.getId()">
                                     <p><span>Likes: $recipe.getRating()<button class="searchBtn" name="like" id="like"
-                                                                              value="like"><i
+                                                                               value="like"><i
                                             class="far fa-thumbs-up"></i></button></span>
                                     </p>
                                 </form>
                             #elseif($currentUser.getId() != $recipe.getAuthorId() && $currentUser.getPrivilege()>0 && $haveVoted == true && $currentUser.getPrivilege()<3)
                                 <form action="/dislike/$recipe.getId()">
                                     <p><span>Likes: $recipe.getRating()<button class="searchBtn" name="like" id="like"
-                                                                              value="like"><i
+                                                                               value="like"><i
                                             class="far fa-thumbs-down"></i></button></span></p>
                                 </form>
                             #end
@@ -108,11 +108,12 @@
                 <h4>Comments</h4>
                 #if($currentUser)
                     <div class="comments">
-                        <form id="commentform" method="post" >
+                        <form id="commentform" method="post">
                             <div id="editor" class="pell"></div>
                             <textarea id="html-output" style="display: none;" name="comment" required></textarea>
                         </form>
-                        <button class="searchBtn" name="Comment" onclick="SubmitForm()" id="Comment" value="Comment">Add Comment
+                        <button class="searchBtn" name="Comment" onclick="SubmitForm()" id="Comment" value="Comment">Add
+                            Comment
                         </button>
                     </div>
                 #end
@@ -146,6 +147,16 @@
                 <form action="/approve_recipe/$recipe.getId()">
                     <button class="searchBtn" name="Approve" id="Approve" value="Approve">Approve</button>
                 </form>
+            #end
+            #if($versions.entrySet().size() != 0)
+                <span>Old versions: </span>
+                <select id="vers" name="version" onChange="window.location.href=this.value">
+                    <option value="http://localhost:7000/recipes/$recipe.getId()">Actual version</option>
+                    #foreach($number in $versions.entrySet())
+                        <option value="http://localhost:7000/recipes/$recipe.getId()/$number.getValue().getId()"
+                        >$number.getKey()</option>
+                    #end
+                </select>
             #end
         #end
     </div>

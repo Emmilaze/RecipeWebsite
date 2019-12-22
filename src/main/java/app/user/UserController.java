@@ -1,6 +1,11 @@
 package app.user;
 
+import app.util.ViewUtil;
 import io.javalin.http.Handler;
+import io.javalin.plugin.openapi.annotations.HttpMethod;
+import io.javalin.plugin.openapi.annotations.OpenApi;
+import io.javalin.plugin.openapi.annotations.OpenApiContent;
+import io.javalin.plugin.openapi.annotations.OpenApiResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import static app.Main.userDao;
@@ -34,6 +39,18 @@ public class UserController {
     /**
      * Method-post to activate all functional site to user. Call function to make change in Data Base.
      */
+    @OpenApi(
+            path = "/activate/{code}",
+            method = HttpMethod.GET,
+            summary = "Activate the user's page",
+            description = "Activate the user",
+            tags = "Cook Eat Repeat",
+            responses = {
+                    @OpenApiResponse(status = "500", description = "The error is not with you, but with us on the server. We apologize.",
+                            content = @OpenApiContent(type = "application/json", from = ViewUtil.class)),
+                    @OpenApiResponse(status = "404", description = "Nothing has matched your criterias.")
+            }
+    )
     public final static Handler activateUser = ctx -> {
         String code = getParamCode(ctx);
         String[] words = code.split("CER");

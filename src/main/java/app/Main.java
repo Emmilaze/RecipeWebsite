@@ -4,10 +4,7 @@ import app.category.CategoryDao;
 import app.comment.CommentDao;
 import app.controllers.*;
 import app.downloads.DownloadsDao;
-import app.recipe.RecipeController;
-import app.recipe.RecipeDao;
-import app.recipe.UnconfirmedRecipesPage;
-import app.recipe.UserRecipesController;
+import app.recipe.*;
 import app.user.UserController;
 import app.user.UserDao;
 import app.util.*;
@@ -15,11 +12,12 @@ import app.vote.VoteDao;
 
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
+import io.javalin.plugin.openapi.OpenApiPlugin;
 import io.sentry.Sentry;
 import io.sentry.SentryClient;
 import io.sentry.SentryClientFactory;
 
-import static app.util.FileMethods.getMemory;
+import static app.util.OpenAPI.getOpenApiOptions;
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
@@ -84,6 +82,7 @@ public class Main {
             config.addStaticFiles("/public");
             config.sessionHandler(Sessions::fileSessionHandler);
             config.registerPlugin(new RouteOverviewPlugin("/routes"));
+            config.registerPlugin(new OpenApiPlugin(getOpenApiOptions()));
         }).start(HerokuUtil.getHerokuAssignedPort());
 
         try {
@@ -119,9 +118,9 @@ public class Main {
                 get(Path.Web.DOWNLOAD, RecipeController.download);
                 get(Path.Web.REPORT, ReportController.serveReportPage);
                 post(Path.Web.REPORT, ReportController.makeReport);
-                get(Path.Web.ROBOTS, AboutPageController.serveRobotsPage);
+                get(Path.Web.ROBOTS, ViewUtil.serveRobotsPage);
                 get(Path.Web.SEARCH, SearchPageController.serveSearchPage);
-
+                get(Path.Web.VERSIONS, RecipeController.fetchOldRecipe);
 
                 get(Path.Web.MESSAGE, ViewUtil.message);
                 app.error(500, ViewUtil.serverError);

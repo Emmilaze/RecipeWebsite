@@ -69,4 +69,12 @@ public class ViewUtil {
     public static int getNextPageSearch(int present, String ingredients, String name) {
         return ((present + 1 > recipeDao.getPagesForSearch(ingredients, name)) ? 0 : present + 1);
     }
+
+
+    /**
+     * Serve the page with terms of use.
+     */
+    public final static Handler serveRobotsPage = ctx -> {
+        ctx.render(Path.Template.ROBOTS);
+    };
 }

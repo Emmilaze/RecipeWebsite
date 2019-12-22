@@ -36,6 +36,7 @@ public class Path {
         public static final String REPORT = "/report";
         public static final String ROBOTS = "/robots.txt";
         public static final String MESSAGE = "/message";
+        public static final String VERSIONS = "/recipes/:id/:number";
     }
 
     /**
@@ -59,5 +60,6 @@ public class Path {
         public static final String ROBOTS = "/velocity/robots.vm";
         public static final String MESSAGE = "/velocity/message.vm";
         public static final String SEARCH = "/velocity/search.vm";
+        public static final String VERSIONS = "/velocity/old_version.vm";
     }
 }

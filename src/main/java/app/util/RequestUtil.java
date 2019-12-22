@@ -222,4 +222,15 @@ public class RequestUtil {
     public static String getParamCode(Context ctx) {
         return ctx.pathParam("code");
     }
+
+    /**
+     * Getting id from page.
+     *
+     * @param ctx - takes dates from page.
+     *
+     * @return dates from field.
+     */
+    public static String getParamNumber(Context ctx) {
+        return ctx.pathParam("number");
+    }
 }

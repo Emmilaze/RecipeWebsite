@@ -1,0 +1,66 @@
+#parse("/velocity/header.vm")
+#@mainLayout()
+<link rel="stylesheet" href="../../css/recipe.css">
+<link rel="stylesheet" href="../../dist/pell.css">
+<div class="topPart">
+    <h2 class="name" id="author" style="width: 90%;">$recipe.getName()</h2>
+    <div class="topWrap">
+        <div class="topPartItem topPartItemFirst">
+            <div class="forImage">
+                <div id="img-box">
+                    <img class="card-img-top" style="object-fit: contain;" src=""
+                         data-src=$recipe.getImg() id="rec-img">
+                </div>
+            </div>
+            <hr>
+            <div class="topPartItem topPartItemSecond">
+                <h2 name="author" id="author" class="name" size="25"
+                    style="text-align: center; border-bottom: 1px solid #e5e5e5; ">Ingredients</h2>
+                <div id="img-box">
+                    <ul class=" ingr-cont" id="ingr-cont">
+                        #foreach($str in $recipe.getArrayOfIngredients())
+                            <li class="ingr">
+                                <span type="text" class="ingr-add">$str</span>
+                            </li>
+                        #end
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="topPartItem">
+                <h2 style="text-align: center;">Recipe</h2>
+                <div class="recipe topPartItem">
+                    <div class="divtext" id="recipe">$recipe.getDescription()</div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="controls">
+        #if($versions.entrySet().size() != 0)
+            <span>Old versions: </span>
+            <select id="vers" name="version" onChange="window.location.href=this.value">
+                <option value="http://localhost:7000/recipes/$actual">Actual version</option>
+                #foreach($number in $versions.entrySet())
+                    #if($number.getValue().getId() == $currentVersion)
+                        <option selected>$number.getKey()</option>
+                    #else
+                        <option value="http://localhost:7000/recipes/$actual/$number.getValue().getId()"
+                        >$number.getKey()</option>
+                    #end
+                #end
+            </select>
+        #end
+    </div>
+</footer>
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../js/QR.js"></script>
+    #if($currentUser)
+    <script src="../../dist/pell.js"></script>
+    <script src="../../dist/pell_init.js"></script>
+    #end
+<script src="../../js/lazy.js"></script>
+<script src="../../js/recipe.js"></script>
+#end

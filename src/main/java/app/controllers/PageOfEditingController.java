@@ -5,6 +5,10 @@ import app.util.Cleaner;
 import app.util.Path;
 import app.util.ViewUtil;
 import io.javalin.http.Handler;
+import io.javalin.plugin.openapi.annotations.HttpMethod;
+import io.javalin.plugin.openapi.annotations.OpenApi;
+import io.javalin.plugin.openapi.annotations.OpenApiContent;
+import io.javalin.plugin.openapi.annotations.OpenApiResponse;
 import io.sentry.Sentry;
 import org.apache.commons.io.FileUtils;
 
@@ -26,6 +30,18 @@ public class PageOfEditingController {
     /**
      * Serve the page with editing the recipe.
      */
+    @OpenApi(
+            path = "/edit/{recipeId}",
+            method = HttpMethod.GET,
+            summary = "Edit the recipe",
+            description = "Editing the need recipe",
+            tags = "Cook Eat Repeat",
+            responses = {
+                    @OpenApiResponse(status = "500", description = "The error is not with you, but with us on the server. We apologize.",
+                            content = @OpenApiContent(type = "application/json", from = ViewUtil.class)),
+                    @OpenApiResponse(status = "404", description = "Nothing has matched your criterias.")
+            }
+    )
     public final static Handler serveEditPage = ctx -> {
         Recipe recipe = recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx)));
         if (getSessionCurrentUser(ctx).getPrivilege() == 4 || getSessionCurrentUser(ctx).getId() == recipe.getAuthorId()) {
@@ -46,6 +62,18 @@ public class PageOfEditingController {
      * If user don't upload the new image, left the previous.
      * Redirecting to the updated recipe page.
      */
+    @OpenApi(
+            path = "/edit/{recipeId}",
+            method = HttpMethod.POST,
+            summary = "Edit the recipe",
+            description = "Editing the need recipe",
+            tags = "Cook Eat Repeat",
+            responses = {
+                    @OpenApiResponse(status = "500", description = "The error is not with you, but with us on the server. We apologize.",
+                            content = @OpenApiContent(type = "application/json", from = ViewUtil.class)),
+                    @OpenApiResponse(status = "404", description = "Nothing has matched your criterias.")
+            }
+    )
     public final static Handler handleEditPost = ctx -> {
         Recipe recipe = recipeDao.getRecipeById(Integer.parseInt(getParamId(ctx)));
         if (getSessionCurrentUser(ctx).getPrivilege() == 4 || getSessionCurrentUser(ctx).getId() == recipe.getAuthorId()) {

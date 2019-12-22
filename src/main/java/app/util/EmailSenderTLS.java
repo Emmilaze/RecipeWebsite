@@ -40,7 +40,7 @@ public class EmailSenderTLS {
     public static String[] getDates() {
         Properties property = new Properties();
         //"./src/main/resources/WEB_INF/config.properties"
-        try (FileInputStream fis = new FileInputStream("./config.properties")) {
+        try (FileInputStream fis = new FileInputStream("./src/main/resources/WEB_INF/config.properties")) {
             property.load(fis);
 
             String email = property.getProperty("em.email");
