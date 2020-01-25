@@ -38,27 +38,37 @@ public class SearchPageController {
         try {
             ingr = getQueryIngredientsForSearch(ctx);
             name = getQueryTitle(ctx);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Something wrong with search");
             Sentry.capture(e);
         }
         Map<String, Object> model = ViewUtil.baseModel(ctx);
-            int present = Integer.parseInt(getParamId(ctx));
-            if (isMoreSearch(present, ingr, name)) {
-                ctx.redirect("/index/1");
-            }
-            if (ingr.equals("") && name.equals("")) {
-                ctx.redirect("/index/1");
+        int present = Integer.parseInt(getParamId(ctx));
+        if (isMoreSearch(present, ingr, name)) {
+            ctx.redirect("/index/1");
+        }
+        String search = ctx.fullUrl();
+        String[] params = search.split("\\?");
+        if (ingr.equals("") && name.equals("")) {
+            ctx.redirect("/index/1");
+        } else {
+            if (ingr.equals("")) {
+                recipeDao.seachedList = recipeDao.search(name, "", present);
+
             } else {
-                if (ingr.equals(""))
-                    recipeDao.seachedList = recipeDao.search(name, "", present);
-                else
-                    recipeDao.seachedList = recipeDao.search(name,
-                            ingr, present);
+                recipeDao.seachedList = recipeDao.search(name,
+                        ingr, present);
             }
-            model.put("recipes", recipeDao.seachedList);
+        }
+        model.put("recipes", recipeDao.seachedList);
+        if (getPreviousPage(present) != 0)
+            model.put("previous", getPreviousPage(present) + "?" + params[1]);
+        else
             model.put("previous", getPreviousPage(present));
+        if (getNextPageSearch(present, ingr, name) != 0)
+            model.put("next", getNextPageSearch(present, ingr, name) + "?" + params[1]);
+        else
             model.put("next", getNextPageSearch(present, ingr, name));
-            ctx.render(Path.Template.SEARCH, model);
+        ctx.render(Path.Template.SEARCH, model);
     };
 }

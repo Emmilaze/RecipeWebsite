@@ -939,7 +939,7 @@ function validate(){
         if(ingr !== undefined && ingr.length -1>0){
             for( i = 1 ;i < ingr.length; i++){
 
-                if(ingr[i].value.replace(/\s/g,'').length < 1){
+                if(ingr[i].innerText.replace(/\s/g,'').length < 1 && ingr[i].value.replace(/\s/g,'').length < 1){
                     alert('You have invalid ingredient(s)');
                     ingr[i].focus();
                     return false;

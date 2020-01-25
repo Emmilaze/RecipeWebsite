@@ -42,12 +42,12 @@
         #if($versions.entrySet().size() != 0)
             <span>Old versions: </span>
             <select id="vers" name="version" onChange="window.location.href=this.value">
-                <option value="http://localhost:7000/recipes/$actual">Actual version</option>
+                <option value="https://g3.sumdu-tss.site/recipes/$actual">Actual version</option>
                 #foreach($number in $versions.entrySet())
                     #if($number.getValue().getId() == $currentVersion)
                         <option selected>$number.getKey()</option>
                     #else
-                        <option value="http://localhost:7000/recipes/$actual/$number.getValue().getId()"
+                        <option value="https://g3.sumdu-tss.site/recipes/$actual/$number.getValue().getId()"
                         >$number.getKey()</option>
                     #end
                 #end

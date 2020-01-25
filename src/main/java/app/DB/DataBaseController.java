@@ -71,7 +71,8 @@ public class DataBaseController {
     public static String[] getDates() {
         Properties property = new Properties();
         //"./src/main/resources/WEB_INF/config.properties"
-        try (FileInputStream fis = new FileInputStream("./src/main/resources/WEB_INF/config.properties")) {
+      //  try (FileInputStream fis = new FileInputStream("./src/main/resources/WEB_INF/config.properties")) {
+        try (FileInputStream fis = new FileInputStream("./config.properties")) {
             property.load(fis);
 
             String host = property.getProperty("db.host");

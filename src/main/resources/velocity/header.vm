@@ -22,7 +22,7 @@
             <div class="menuItems" style="position: absolute;
                                               left: 0;">
                 <a href="/index/1" class="logo" aria-label="home">
-                    <img src="../../img/favicon.png" data-src="../../img/favicon.png" alt="">
+                    <img src="../../img/favicon.png" data-src="../../img/favicon.png" alt="../../img/favicon.png">
                 </a>
             </div>
             <div class="siteName" style="padding-left: 70px;">
@@ -119,11 +119,11 @@
 </div>
 
 
-</body>
-
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../js/header.js"></script>
+<script src="../../js/lazy.js"></script>
 <script src="https://browser.sentry-cdn.com/5.10.2/bundle.min.js" integrity="sha384-ssBfXiBvlVC7bdA/VX03S88B5MwXQWdnpJRbUYFPgswlOBwETwTp6F3SMUNpo9M9" crossorigin="anonymous">
 </script>
+</body>
 </html>
 #end

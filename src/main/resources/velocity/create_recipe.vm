@@ -13,7 +13,7 @@
                     <div id="img-box">
                         <input type="file" name="files" multiple id="file" accept="image/gif, image/jpeg, image/png"
                                onchange="previewFile()"/>
-                        <img class="card-img-top" src="../../img/logo.png" data-src="" id="rec-img">
+                        <img class="card-img-top" src="" data-src="../../img/logo.png" id="rec-img">
                     </div>
                     <div class="conf">
                         <div class="leftConf">
