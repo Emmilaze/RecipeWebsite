@@ -2,7 +2,7 @@
 
 ## Used: Javalin, Maven, PostgreSQL, JUnit, Sentry, Jbcrypt, Jsoup, Swagger, Jetty(sessions), Javax (Mail, Activation), Commons (IO, FileUpload) and etc.
 
-## The site was developed using Java (Javalin) on the backend and JavaScript on the frontend.
+## The site was developed using Java (Javalin) on the backend.
 ![Image alt](https://github.com/emmilaze/Website/raw/master/pics/main.png)
 
 ## Site features:
